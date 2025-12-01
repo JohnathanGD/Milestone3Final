@@ -20,6 +20,7 @@ Milestone3Final/
 - offensive_NFL_Stats.py — Builds offensive aggregates
 - repro_m2.ipynb — Main notebook (training, evaluation, prediction)
 - README.md — Project documentation
+- milestone3.pdf
 
 
 ---
