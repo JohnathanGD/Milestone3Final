@@ -14,15 +14,12 @@ The final system produces well-calibrated win probabilities, enabling probabilis
 ## Repository Structure
 
 Milestone3Final/
-│
-├── Data/ # Raw and generated datasets
-│
-├── outputs/ # Figures, tables, predictions, and saved models
-│
-├── defensive_NFL_Stats.py # Script to compute defensive game-level logs
-├── offensive_NFL_Stats.py # Builds/loads offensive team aggregates
-├── repro_m2.ipynb # Main notebook (preprocessing, modeling, results)
-├── README.md # Project documentation
-└── 
+- Data/ — Raw and generated datasets
+- outputs/ — Figures, tables, predictions, and saved models
+- defensive_NFL_Stats.py — Builds defensive game-level logs
+- offensive_NFL_Stats.py — Builds offensive aggregates
+- repro_m2.ipynb — Main notebook (training, evaluation, prediction)
+- README.md — Project documentation
+
 
 
