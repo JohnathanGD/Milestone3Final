@@ -3,10 +3,12 @@
 
 from __future__ import annotations
 
+import base64
+
 import pandas as pd
 import streamlit as st
 
-from nfl_predictor.constants import OUTPUTS_DIR
+from nfl_predictor.constants import MILESTONE_PDF_PATH, OUTPUTS_DIR
 from nfl_predictor.data import data_status
 from nfl_predictor.team_logos import logo_url, matchup_display_colors
 from nfl_predictor.notebook_results import (
@@ -181,7 +183,7 @@ def render_predictions(results: NotebookResults) -> None:
 
 def render_metrics(results: NotebookResults) -> None:
     st.subheader("Hold-out test performance")
-    st.caption("30% random split — copied from the notebook summary output.")
+    st.caption("Seasons before 2019 = train, 2019+ = test — from notebook output when available.")
 
     if results.model_metrics.empty:
         st.warning("Model metrics table not found in notebook output.")
@@ -244,6 +246,49 @@ def render_metrics(results: NotebookResults) -> None:
             )
 
 
+@st.cache_data(show_spinner=False)
+def _milestone_pdf_bytes() -> bytes | None:
+    if not MILESTONE_PDF_PATH.is_file():
+        return None
+    return MILESTONE_PDF_PATH.read_bytes()
+
+
+def _display_pdf(pdf_bytes: bytes, height: int = 900) -> None:
+    """Show PDF in-browser (pdf_viewer if available, else embedded iframe)."""
+    if hasattr(st, "pdf_viewer"):
+        st.pdf_viewer(pdf_bytes, height=height)
+        return
+    b64 = base64.b64encode(pdf_bytes).decode()
+    st.markdown(
+        f'<iframe src="data:application/pdf;base64,{b64}" '
+        f'width="100%" height="{height}px" style="border:1px solid #cbd5e1;'
+        f'border-radius:8px;"></iframe>',
+        unsafe_allow_html=True,
+    )
+
+
+def render_report() -> None:
+    st.subheader("Milestone III report")
+    st.caption("Full project write-up (methods, results, and discussion).")
+
+    pdf_bytes = _milestone_pdf_bytes()
+    if pdf_bytes is None:
+        st.warning(
+            f"`{MILESTONE_PDF_PATH.name}` was not found at the project root. "
+            "Add the PDF next to `app.py` to enable this page."
+        )
+        return
+
+    st.download_button(
+        "Download milestone3.pdf",
+        data=pdf_bytes,
+        file_name=MILESTONE_PDF_PATH.name,
+        mime="application/pdf",
+        use_container_width=True,
+    )
+    _display_pdf(pdf_bytes, height=900)
+
+
 def render_about(results: NotebookResults) -> None:
     status = data_status()
 
@@ -261,14 +306,24 @@ def render_about(results: NotebookResults) -> None:
     st.subheader("How this app works")
     st.markdown(
         """
-        This dashboard **does not re-train models**. It reads the saved output cells from
-        **`repro_m2.ipynb`** — the same tables and charts you see after running the notebook.
+        This dashboard **does not re-train models** in the browser. It reads saved output from
+        **`repro_m2.ipynb`** (tables and charts).
 
-        To refresh predictions and metrics:
+        For **lagged pre-game features** (season-to-date offense/defense through the prior week),
+        train locally with:
+
+        `python train_model.py --predict-week 2025 13`
+
+        That writes `outputs/predictions_2025_wk13.csv`. Re-run the notebook afterward if you
+        want the Streamlit UI to show the same numbers in the notebook output block.
+
+        To refresh notebook-backed views:
 
         1. Open `repro_m2.ipynb` in Jupyter.
         2. **Run all cells** (Kernel → Restart & Run All).
         3. Reload this page (or click **Refresh from notebook** in the sidebar).
+
+        Use the **Report** page in the sidebar to read or download `milestone3.pdf`.
         """
     )
 
@@ -285,16 +340,21 @@ def main() -> None:
         st.title("NFL Predictor")
         page = st.radio(
             "Navigate",
-            ["Predictions", "Model results", "About"],
+            ["Predictions", "Model results", "Report", "About"],
             label_visibility="collapsed",
         )
         st.divider()
         if results.executed:
             st.success("Notebook outputs loaded")
             st.caption(f"Last saved: {notebook_mtime_str(results)}")
+        elif results.data_source:
+            st.info(f"Using saved data: `{results.data_source}`")
+            st.caption("Run repro_m2.ipynb with outputs saved for full metrics.")
+        elif results.has_model_views():
+            st.info("Charts loaded from outputs/")
         else:
-            st.error("Notebook has not been run")
-            st.caption("Run all cells in repro_m2.ipynb")
+            st.warning("No notebook or saved outputs yet")
+            st.caption("Run repro_m2.ipynb or train_model.py")
 
         if st.button("Refresh from notebook", use_container_width=True):
             get_results.clear()
@@ -306,18 +366,31 @@ def main() -> None:
         "(defensive efficiency + schedule context, 1999–2025)."
     )
 
-    if not results.executed:
-        st.error(
-            "No executed output found in `repro_m2.ipynb`. "
-            "Run the notebook first, then return here."
-        )
-        render_about(results)
+    if page == "Report":
+        render_report()
         return
 
     if page == "Predictions":
+        if not results.has_predictions():
+            st.error(
+                "No predictions found. Either run all cells in `repro_m2.ipynb` and save "
+                "with outputs, or run: `python train_model.py --predict-week 2025 13`"
+            )
+            render_about(results)
+            return
+        if not results.executed and results.data_source:
+            st.info(f"Showing predictions from `{results.data_source}` (notebook not saved with outputs).")
         render_predictions(results)
     elif page == "Model results":
-        render_metrics(results)
+        if not results.has_model_views():
+            st.warning(
+                "Model metrics and charts need notebook stdout or files in `outputs/`. "
+                "Run `repro_m2.ipynb` (Kernel → Restart & Run All), then refresh."
+            )
+        else:
+            if not results.executed:
+                st.info("Some charts loaded from `outputs/` folder.")
+            render_metrics(results)
     else:
         render_about(results)
 

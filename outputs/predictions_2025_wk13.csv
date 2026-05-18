@@ -1,0 +1,17 @@
+schedule_season,schedule_week,team_home,team_away,home_abbr,away_abbr,score_home,score_away,game_result,pred_home_win_prob,predicted_winner,confidence,actual_winner,correct
+2025,13,Baltimore Ravens,Cincinnati Bengals,BAL,CIN,14.0,32.0,away_win,0.6880591154837035,Baltimore Ravens,0.6880591154837035,Cincinnati Bengals,False
+2025,13,Carolina Panthers,Los Angeles Rams,CAR,LA,31.0,28.0,home_win,0.38872778734207186,Los Angeles Rams,0.6112722126579282,Carolina Panthers,False
+2025,13,Cleveland Browns,San Francisco 49ers,CLE,SF,8.0,26.0,away_win,0.42112338975062175,San Francisco 49ers,0.5788766102493783,San Francisco 49ers,True
+2025,13,Dallas Cowboys,Kansas City Chiefs,DAL,KC,31.0,28.0,home_win,0.4400495603331824,Kansas City Chiefs,0.5599504396668176,Dallas Cowboys,False
+2025,13,Detroit Lions,Green Bay Packers,DET,GB,24.0,31.0,away_win,0.5881402817883726,Detroit Lions,0.5881402817883726,Green Bay Packers,False
+2025,13,Indianapolis Colts,Houston Texans,IND,HOU,16.0,20.0,away_win,0.6767414864926466,Indianapolis Colts,0.6767414864926466,Houston Texans,False
+2025,13,Los Angeles Chargers,Las Vegas Raiders,LAC,LV,31.0,14.0,home_win,0.6905906436396317,Los Angeles Chargers,0.6905906436396317,Los Angeles Chargers,True
+2025,13,Miami Dolphins,New Orleans Saints,MIA,NO,21.0,17.0,home_win,0.6270667839050094,Miami Dolphins,0.6270667839050094,Miami Dolphins,True
+2025,13,New England Patriots,New York Giants,NE,NYG,33.0,15.0,home_win,0.7270983910546157,New England Patriots,0.7270983910546157,New England Patriots,True
+2025,13,New York Jets,Atlanta Falcons,NYJ,ATL,27.0,24.0,home_win,0.4609504999258269,Atlanta Falcons,0.5390495000741731,New York Jets,False
+2025,13,Philadelphia Eagles,Chicago Bears,PHI,CHI,15.0,24.0,away_win,0.6407874285932691,Philadelphia Eagles,0.6407874285932691,Chicago Bears,False
+2025,13,Pittsburgh Steelers,Buffalo Bills,PIT,BUF,7.0,26.0,away_win,0.48589817773255534,Buffalo Bills,0.5141018222674447,Buffalo Bills,True
+2025,13,Seattle Seahawks,Minnesota Vikings,SEA,MIN,26.0,0.0,home_win,0.746458028322971,Seattle Seahawks,0.746458028322971,Seattle Seahawks,True
+2025,13,Tampa Bay Buccaneers,Arizona Cardinals,TB,ARI,20.0,17.0,home_win,0.6288385374666654,Tampa Bay Buccaneers,0.6288385374666654,Tampa Bay Buccaneers,True
+2025,13,Tennessee Titans,Jacksonville Jaguars,TEN,JAX,3.0,25.0,away_win,0.38470537605158134,Jacksonville Jaguars,0.6152946239484187,Jacksonville Jaguars,True
+2025,13,Washington Commanders,Denver Broncos,WAS,DEN,26.0,27.0,away_win,0.39583377020358873,Denver Broncos,0.6041662297964112,Denver Broncos,True

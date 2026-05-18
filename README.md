@@ -69,7 +69,19 @@ Data/offensive_team_logs_from_nfl_data_py_1999_2025.csv
 
 ---
 
-### 2) Train Models & Run Experiments
+### 2) Train Models (lagged features, recommended)
+
+From the project root:
+
+```bash
+python train_model.py
+python train_model.py --predict-week 2025 13
+```
+
+This builds **season-to-date** offensive and defensive features (through the prior week only),
+trains on seasons before 2019, evaluates on 2019+, and saves week predictions under `outputs/`.
+
+### 3) Notebook experiments
 
 Open:
 
@@ -89,7 +101,13 @@ This notebook handles:
 
 ---
 
-## 4) Results Summary
+## 4) Streamlit UI
+
+```bash
+streamlit run app.py
+```
+
+## 5) Results Summary
 
 ### Dataset
 - 7,158 regular-season games (1999–2025)
