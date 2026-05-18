@@ -6,7 +6,7 @@ import nfl_data_py as nfl
 def safe_div(n, d):
     return n / d if d not in (0, None) else 0.0
 
-def load_pbp(start_season=1999, end_season=2025):
+def load_pbp(start_season=1999, end_season=2026):
     years = list(range(start_season, end_season + 1))
     pbp = nfl.import_pbp_data(years, downcast=True, cache=False)
     return pbp
@@ -190,7 +190,7 @@ def build_defense_logs(pbp: pd.DataFrame) -> pd.DataFrame:
     return defense
 
 def main():
-    pbp = load_pbp(1999, 2025)
+    pbp = load_pbp(1999, 2026)
     defense = build_defense_logs(pbp)
     out_path = "Data/team_defense_game_logs_1999_2025.csv"
     defense.to_csv(out_path, index=False)
