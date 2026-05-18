@@ -26,6 +26,22 @@ class NotebookResults:
     extrapolation: dict[str, str] = field(default_factory=dict)
     figures: dict[str, bytes] = field(default_factory=dict)
     figure_files: dict[str, Path] = field(default_factory=dict)
+    data_source: str = ""
+
+    def has_predictions(self) -> bool:
+        return not self.predictions.empty
+
+    def has_model_views(self) -> bool:
+        return (
+            not self.model_metrics.empty
+            or bool(self.cv_scores)
+            or bool(self.extrapolation)
+            or bool(self.figures)
+            or bool(self.figure_files)
+        )
+
+    def can_run_app(self) -> bool:
+        return self.has_predictions() or self.has_model_views() or self.executed
 
 
 def _collect_stdout(cells: list) -> str:
@@ -112,7 +128,79 @@ def _read_fwf_table(text: str, header_test) -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def _load_predictions_from_disk() -> tuple[pd.DataFrame, str]:
+    """Fallback: latest outputs/predictions_*.csv from train_model.py."""
+    candidates = sorted(
+        OUTPUTS_DIR.glob("predictions_*.csv"),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    if not candidates:
+        return pd.DataFrame(), ""
+    path = candidates[0]
+    df = pd.read_csv(path)
+    if "pred_home_win_prob" in df.columns:
+        df["pred_home_win_prob"] = pd.to_numeric(df["pred_home_win_prob"], errors="coerce")
+    if "confidence" not in df.columns and "pred_home_win_prob" in df.columns:
+        df["confidence"] = df["pred_home_win_prob"].apply(
+            lambda p: max(p, 1 - p) if pd.notna(p) else None
+        )
+    return df, f"outputs/{path.name}"
+
+
+def _parse_metrics_eval_blocks(stdout: str) -> pd.DataFrame:
+    """Parse evaluate() stdout blocks (Accuracy / Precision / ... / Brier)."""
+    rows: list[dict[str, float | str]] = []
+    current_name: str | None = None
+    metrics: dict[str, float] = {}
+
+    for line in stdout.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            if current_name and metrics:
+                rows.append({"Model": current_name, **metrics})
+                current_name, metrics = None, {}
+            continue
+        if stripped.startswith("Random Forest") or stripped.startswith("Logistic") or stripped.startswith("XGBoost"):
+            if current_name and metrics:
+                rows.append({"Model": current_name, **metrics})
+            current_name = stripped
+            metrics = {}
+            continue
+        if current_name and ":" in stripped:
+            key, _, val = stripped.partition(":")
+            key = key.strip().lower()
+            try:
+                metrics[key] = float(val.strip())
+            except ValueError:
+                pass
+
+    if current_name and metrics:
+        rows.append({"Model": current_name, **metrics})
+
+    if not rows:
+        return pd.DataFrame()
+
+    df = pd.DataFrame(rows)
+    rename = {
+        "accuracy": "acc",
+        "precision": "prec",
+        "recall": "rec",
+        "f1": "f1",
+        "auroc": "auroc",
+        "brier": "brier",
+    }
+    return df.rename(columns={k: v for k, v in rename.items() if k in df.columns})
+
+
 def _parse_metrics(stdout: str) -> pd.DataFrame:
+    df = _parse_metrics_eval_blocks(stdout)
+    if not df.empty:
+        return df
+    return _parse_metrics_legacy(stdout)
+
+
+def _parse_metrics_legacy(stdout: str) -> pd.DataFrame:
     lines = stdout.splitlines()
     header_idx = None
     for i, line in enumerate(lines):
@@ -140,7 +228,12 @@ def _parse_metrics(stdout: str) -> pd.DataFrame:
         parts = stripped.replace("\\", "").split()
         if len(parts) >= 6 and parts[0].isdigit():
             try:
-                acc, prec, rec, f1 = (float(parts[-4]), float(parts[-3]), float(parts[-2]), float(parts[-1]))
+                acc, prec, rec, f1 = (
+                    float(parts[-4]),
+                    float(parts[-3]),
+                    float(parts[-2]),
+                    float(parts[-1]),
+                )
             except ValueError:
                 continue
             rows.append(
@@ -193,14 +286,16 @@ def _parse_extrapolation(stdout: str) -> dict[str, str]:
         "Total Number of Bets Won",
         "Total Number of Bets Made",
         "Possible Games (2019+)",
-        "Train (pre-2019)",
-        "Test (2019+)",
+        "Train (pre-",
+        "Test (",
     ]
     result: dict[str, str] = {}
     for line in stdout.splitlines():
+        stripped = line.strip()
         for key in keys:
-            if line.strip().startswith(key):
-                result[key] = line.split(":", 1)[-1].strip()
+            if stripped.startswith(key) and ":" in stripped:
+                label = stripped.split(":", 1)[0].strip()
+                result[label] = stripped.split(":", 1)[-1].strip()
     return result
 
 
@@ -230,13 +325,21 @@ def load_notebook_results(
         nb = json.load(f)
 
     cells = nb.get("cells", [])
-    executed = any(cell.get("outputs") for cell in cells if cell.get("cell_type") == "code")
+    notebook_executed = any(
+        cell.get("outputs") for cell in cells if cell.get("cell_type") == "code"
+    )
     stdout = _collect_stdout(cells)
 
     predictions = _read_fwf_table(
         stdout,
         lambda ln: "pred_home_win_prob" in ln and "team_home" in ln,
     )
+    data_source = "repro_m2.ipynb" if notebook_executed else ""
+
+    if predictions.empty:
+        predictions, disk_src = _load_predictions_from_disk()
+        if disk_src:
+            data_source = disk_src
 
     metrics = _parse_metrics(stdout)
 
@@ -244,20 +347,25 @@ def load_notebook_results(
         predictions["pred_home_win_prob"] = pd.to_numeric(
             predictions["pred_home_win_prob"], errors="coerce"
         )
-        predictions["confidence"] = predictions["pred_home_win_prob"].apply(
-            lambda p: max(p, 1 - p) if pd.notna(p) else None
-        )
+        if "confidence" not in predictions.columns:
+            predictions["confidence"] = predictions["pred_home_win_prob"].apply(
+                lambda p: max(p, 1 - p) if pd.notna(p) else None
+            )
+
+    figure_files = _figure_files_from_disk()
+    figures = _collect_figures(cells) if notebook_executed else {}
 
     return NotebookResults(
         notebook_path=path,
-        executed=executed,
+        executed=notebook_executed,
         stdout=stdout,
         predictions=predictions,
         model_metrics=metrics,
         cv_scores=_parse_cv(stdout),
         extrapolation=_parse_extrapolation(stdout),
-        figures=_collect_figures(cells) if executed else {},
-        figure_files=_figure_files_from_disk(),
+        figures=figures,
+        figure_files=figure_files,
+        data_source=data_source,
     )
 
 
