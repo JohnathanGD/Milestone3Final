@@ -1,0 +1,39 @@
+{
+  "p0": 0.5726361313151169,
+  "beta": 0.7999999999999999,
+  "offense_weight": 0.5,
+  "feature_means": {
+    "off_epa": -0.9338725260090823,
+    "off_pass_epa": 1.7176086527290766,
+    "off_qb_epa": -0.27846927160462126,
+    "epa_per_play_allowed": -0.02524594647606363,
+    "success_rate_allowed": 0.41716303934726207,
+    "yards_per_play_allowed": 5.335211330089704,
+    "pressure_rate": 0.10840991754607793,
+    "turnovers_forced": 1.5574100770344816
+  },
+  "feature_stds": {
+    "off_epa": 6.355054560487186,
+    "off_pass_epa": 5.4010872172606,
+    "off_qb_epa": 6.379591802852456,
+    "epa_per_play_allowed": 0.0908689088472705,
+    "success_rate_allowed": 0.03584564799488812,
+    "yards_per_play_allowed": 0.5529664343041519,
+    "pressure_rate": 0.04154036950149645,
+    "turnovers_forced": 0.5301689232748276
+  },
+  "train_metrics": {
+    "accuracy": 0.6270886573619029,
+    "auroc": 0.6630174477195303,
+    "brier": 0.22528495465460796,
+    "log_loss": 0.641590899347936,
+    "away_fav_rate": 0.31708275997641044
+  },
+  "holdout_metrics": {
+    "accuracy": 0.6270096463022508,
+    "auroc": 0.6822511301908318,
+    "brier": 0.22620024133245073,
+    "log_loss": 0.643389494346185,
+    "away_fav_rate": 0.3285101822079314
+  }
+}

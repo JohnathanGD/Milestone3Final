@@ -129,8 +129,8 @@ def render_predictions(results: NotebookResults) -> None:
 
     st.subheader(f"Week {week} predictions")
     st.caption(
-        "Home win probability from logistic regression in the notebook "
-        "(season-to-date offensive + defensive features)."
+        "Home win probability from the baseline + form model "
+        "(prior-season / in-season offense & defense)."
     )
 
     for _, row in preds.iterrows():
@@ -311,13 +311,14 @@ def render_about(results: NotebookResults) -> None:
         This dashboard **does not re-train models** in the browser. It reads saved output from
         **`repro_m2.ipynb`** (tables and charts).
 
-        For **lagged pre-game features** (season-to-date offense/defense through the prior week),
-        train locally with:
+        Week predictions use a **home baseline** adjusted by offense/defense form
+        (prior season for week 1; season-to-date afterward):
 
         `python train_model.py --predict-week 2026 1`
 
-        That writes `outputs/predictions_2026_wk1.csv`. Re-run the notebook afterward if you
-        want the Streamlit UI to show the same numbers in the notebook output block.
+        That writes `outputs/predictions_2026_wk1.csv`. Optional `--ml` also reports
+        lagged ML holdout metrics. Re-run the notebook afterward if you
+        want the Streamlit UI to show notebook stdout metrics as well.
 
         To refresh notebook-backed views:
 
