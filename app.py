@@ -8,7 +8,9 @@ import base64
 import pandas as pd
 import streamlit as st
 
-from nfl_predictor.constants import MILESTONE_PDF_PATH, OUTPUTS_DIR
+from pathlib import Path
+
+from nfl_predictor.constants import DEFENSE_PATH, MILESTONE_PDF_PATH, OFFENSE_PATH, OUTPUTS_DIR
 from nfl_predictor.data import data_status
 from nfl_predictor.team_logos import logo_url, matchup_display_colors
 from nfl_predictor.notebook_results import (
@@ -176,7 +178,7 @@ def render_predictions(results: NotebookResults) -> None:
     st.download_button(
         "Download predictions (CSV)",
         preds.to_csv(index=False),
-        file_name="notebook_week13_predictions.csv",
+        file_name="predictions.csv",
         mime="text/csv",
     )
 
@@ -297,8 +299,8 @@ def render_about(results: NotebookResults) -> None:
         f"""
         | File | Status |
         |------|--------|
-        | `Data/offensive_team_logs_from_nfl_data_py_1999_2025.csv` | {"Ready" if status["offense"] else "Missing"} |
-        | `Data/team_defense_game_logs_1999_2025.csv` | {"Ready" if status["defense"] else "Missing"} |
+        | `{OFFENSE_PATH.relative_to(Path(__file__).resolve().parent)}` | {"Ready" if status["offense"] else "Missing"} |
+        | `{DEFENSE_PATH.relative_to(Path(__file__).resolve().parent)}` | {"Ready" if status["defense"] else "Missing"} |
         | `repro_m2.ipynb` | {"Executed" if results.executed else "Not run yet"} |
         """
     )
@@ -312,9 +314,9 @@ def render_about(results: NotebookResults) -> None:
         For **lagged pre-game features** (season-to-date offense/defense through the prior week),
         train locally with:
 
-        `python train_model.py --predict-week 2025 13`
+        `python train_model.py --predict-week 2026 1`
 
-        That writes `outputs/predictions_2025_wk13.csv`. Re-run the notebook afterward if you
+        That writes `outputs/predictions_2026_wk1.csv`. Re-run the notebook afterward if you
         want the Streamlit UI to show the same numbers in the notebook output block.
 
         To refresh notebook-backed views:
@@ -363,7 +365,7 @@ def main() -> None:
     st.title("NFL Game Outcome Predictor")
     st.markdown(
         "Probabilistic home/away win forecasts from the Milestone III pipeline "
-        "(defensive efficiency + schedule context, 1999–2025)."
+        "(defensive efficiency + schedule context, 1999–2026)."
     )
 
     if page == "Report":
@@ -374,7 +376,7 @@ def main() -> None:
         if not results.has_predictions():
             st.error(
                 "No predictions found. Either run all cells in `repro_m2.ipynb` and save "
-                "with outputs, or run: `python train_model.py --predict-week 2025 13`"
+                "with outputs, or run: `python train_model.py --predict-week 2026 1`"
             )
             render_about(results)
             return

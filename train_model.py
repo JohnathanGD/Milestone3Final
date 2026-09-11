@@ -7,7 +7,12 @@ import argparse
 
 import pandas as pd
 
-from nfl_predictor.constants import EXTRAPOLATION_CUTOFF_SEASON, OUTPUTS_DIR
+from nfl_predictor.constants import (
+    DEFAULT_PREDICT_SEASON,
+    DEFAULT_PREDICT_WEEK,
+    EXTRAPOLATION_CUTOFF_SEASON,
+    OUTPUTS_DIR,
+)
 from nfl_predictor.model import train_pipeline
 
 
@@ -24,7 +29,11 @@ def main() -> None:
         nargs=2,
         type=int,
         metavar=("SEASON", "WEEK"),
-        help="After training, print predictions for this week",
+        default=[DEFAULT_PREDICT_SEASON, DEFAULT_PREDICT_WEEK],
+        help=(
+            "After training, print predictions for this week "
+            f"(default: {DEFAULT_PREDICT_SEASON} {DEFAULT_PREDICT_WEEK})"
+        ),
     )
     args = parser.parse_args()
 

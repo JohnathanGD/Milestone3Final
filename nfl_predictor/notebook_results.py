@@ -330,16 +330,20 @@ def load_notebook_results(
     )
     stdout = _collect_stdout(cells)
 
-    predictions = _read_fwf_table(
-        stdout,
-        lambda ln: "pred_home_win_prob" in ln and "team_home" in ln,
-    )
-    data_source = "repro_m2.ipynb" if notebook_executed else ""
-
+    # Prefer freshest train_model CSV; fall back to notebook stdout table.
+    predictions, disk_src = _load_predictions_from_disk()
+    data_source = disk_src
     if predictions.empty:
-        predictions, disk_src = _load_predictions_from_disk()
-        if disk_src:
-            data_source = disk_src
+        predictions = _read_fwf_table(
+            stdout,
+            lambda ln: "pred_home_win_prob" in ln and "team_home" in ln,
+        )
+        if not predictions.empty:
+            data_source = "repro_m2.ipynb"
+    elif not notebook_executed:
+        data_source = disk_src
+    else:
+        data_source = disk_src
 
     metrics = _parse_metrics(stdout)
 

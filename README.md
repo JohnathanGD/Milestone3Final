@@ -3,7 +3,7 @@
 ## Overview
 
 This project presents a data-driven machine learning pipeline to predict NFL regular-season game outcomes (home vs away win) using team-level offensive and defensive efficiency metrics.  
-Using publicly available play-by-play data (1999–2025), we engineer features such as expected points added (EPA), yardage per play, pressure rate, turnovers, and explosive plays for both home and away teams.  
+Using publicly available play-by-play data (1999–2026), we engineer features such as expected points added (EPA), yardage per play, pressure rate, turnovers, and explosive plays for both home and away teams.  
 
 Multiple classification models are trained and evaluated, including logistic regression, random forest, and XGBoost. Hyperparameters are optimized using Bayesian search, and model performance is assessed through held-out testing, cross-validation, and out-of-time extrapolation.
 
@@ -50,38 +50,39 @@ source .venv/bin/activate # for macOS/Linux
 
 ## Usage
 
-### 1) Build Defensive Game Logs (1999–2025)
+### 1) Build Defensive Game Logs (1999–2026)
 
 python3 defensive_NFL_Stats.py
 
 This generates:
 
-Data/team_defense_game_logs_1999_2025.csv
+Data/team_defense_game_logs_1999_2026.csv
 
-### 2) Build Offensive Game Logs (1999-2025)
+### 2) Build Offensive Game Logs (1999–2026)
 
 python3 offensive_NFL_Stats.py
 
 This generates:
 
-Data/offensive_team_logs_from_nfl_data_py_1999_2025.csv
+Data/offensive_team_logs_from_nfl_data_py_1999_2026.csv
 
 
 ---
 
-### 2) Train Models (lagged features, recommended)
+### 3) Train Models (lagged features, recommended)
 
 From the project root:
 
 ```bash
 python train_model.py
-python train_model.py --predict-week 2025 13
+python train_model.py --predict-week 2026 1
 ```
 
 This builds **season-to-date** offensive and defensive features (through the prior week only),
 trains on seasons before 2019, evaluates on 2019+, and saves week predictions under `outputs/`.
+Default prediction target is **Week 1, 2026** (full schedule is in the offensive logs; PBP fills in as games are played).
 
-### 3) Notebook experiments
+### 4) Notebook experiments
 
 Open:
 
@@ -96,21 +97,21 @@ This notebook handles:
 - Model training
 - Cross-validation
 - Out-of-time testing
-- Prediction output (Week 13, 2025)
+- Prediction output (Week 1, 2026)
 - confusion matrices, ROC, PR curves
 
 ---
 
-## 4) Streamlit UI
+## 5) Streamlit UI
 
 ```bash
 streamlit run app.py
 ```
 
-## 5) Results Summary
+## 6) Results Summary
 
 ### Dataset
-- 7,158 regular-season games (1999–2025)
+- 7,239 regular-season games scheduled (1999–2026); scored games grow as the season progresses
 
 ### Baseline
 - Always predicting home team (56.5% accuracy)

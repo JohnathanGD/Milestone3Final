@@ -7275,3 +7275,275 @@ schedule_season,schedule_week,schedule_date,schedule_playoff,game_id,home_abbr,a
 2025,21,2026-01-25,True,2025_21_NE_DEN,DEN,NE,Denver Broncos,New England Patriots,7.0,10.0,26.0,,-22.137741,-2.0982914,-16.042564,-22.137741,-17.205996,-3.1289752,-5.2933273,-17.205996,0.5462618,0.4537382,0.08763051,0.9123695,-3.5,43.5,-3.5,43.5,1,away_win
 2025,21,2026-01-25,True,2025_21_LA_SEA,SEA,LA,Seattle Seahawks,Los Angeles Rams,31.0,27.0,41.0,,21.026737,-7.3051047,19.528448,21.026737,20.314371,0.85358465,16.977951,20.314371,0.566792,0.43320796,1.0,0.0,2.5,45.5,2.5,45.5,1,home_win
 2025,22,2026-02-08,True,2025_22_SEA_NE,NE,SEA,New England Patriots,Seattle Seahawks,13.0,29.0,67.0,,-15.326372,-2.907032,-18.467112,-15.326372,4.5666103,-4.8999023,1.153107,4.5666103,0.566792,0.43320796,0.0,1.0,-4.5,45.5,-4.5,45.5,1,away_win
+2026,1,2026-09-09,False,2026_01_NE_SEA,SEA,NE,Seattle Seahawks,New England Patriots,13.0,10.0,,,0.46443003,-4.086753,5.489187,0.46443003,-2.6348033,-12.163845,5.6053596,-2.6348033,0.5462618,0.4537382,0.9503642,0.049635828,3.0,44.5,3.0,44.5,1,home_win
+2026,1,2026-09-10,False,2026_01_SF_LA,LA,SF,Los Angeles Rams,San Francisco 49ers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_CHI_CAR,CAR,CHI,Carolina Panthers,Chicago Bears,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_TB_CIN,CIN,TB,Cincinnati Bengals,Tampa Bay Buccaneers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_NO_DET,DET,NO,Detroit Lions,New Orleans Saints,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_BUF_HOU,HOU,BUF,Houston Texans,Buffalo Bills,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_BAL_IND,IND,BAL,Indianapolis Colts,Baltimore Ravens,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_CLE_JAX,JAX,CLE,Jacksonville Jaguars,Cleveland Browns,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_ATL_PIT,PIT,ATL,Pittsburgh Steelers,Atlanta Falcons,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_NYJ_TEN,TEN,NYJ,Tennessee Titans,New York Jets,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_ARI_LAC,LAC,ARI,Los Angeles Chargers,Arizona Cardinals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_MIA_LV,LV,MIA,Las Vegas Raiders,Miami Dolphins,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_GB_MIN,MIN,GB,Minnesota Vikings,Green Bay Packers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_WAS_PHI,PHI,WAS,Philadelphia Eagles,Washington Commanders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-13,False,2026_01_DAL_NYG,NYG,DAL,New York Giants,Dallas Cowboys,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,1,2026-09-14,False,2026_01_DEN_KC,KC,DEN,Kansas City Chiefs,Denver Broncos,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-17,False,2026_02_DET_BUF,BUF,DET,Buffalo Bills,Detroit Lions,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_CAR_ATL,ATL,CAR,Atlanta Falcons,Carolina Panthers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_NO_BAL,BAL,NO,Baltimore Ravens,New Orleans Saints,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_MIN_CHI,CHI,MIN,Chicago Bears,Minnesota Vikings,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_CIN_HOU,HOU,CIN,Houston Texans,Cincinnati Bengals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_PIT_NE,NE,PIT,New England Patriots,Pittsburgh Steelers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_GB_NYJ,NYJ,GB,New York Jets,Green Bay Packers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_CLE_TB,TB,CLE,Tampa Bay Buccaneers,Cleveland Browns,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_PHI_TEN,TEN,PHI,Tennessee Titans,Philadelphia Eagles,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_JAX_DEN,DEN,JAX,Denver Broncos,Jacksonville Jaguars,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_LV_LAC,LAC,LV,Los Angeles Chargers,Las Vegas Raiders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_SEA_ARI,ARI,SEA,Arizona Cardinals,Seattle Seahawks,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_WAS_DAL,DAL,WAS,Dallas Cowboys,Washington Commanders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_MIA_SF,SF,MIA,San Francisco 49ers,Miami Dolphins,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-20,False,2026_02_IND_KC,KC,IND,Kansas City Chiefs,Indianapolis Colts,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,2,2026-09-21,False,2026_02_NYG_LA,LA,NYG,Los Angeles Rams,New York Giants,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-24,False,2026_03_ATL_GB,GB,ATL,Green Bay Packers,Atlanta Falcons,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_LAC_BUF,BUF,LAC,Buffalo Bills,Los Angeles Chargers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_CAR_CLE,CLE,CAR,Cleveland Browns,Carolina Panthers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_NYJ_DET,DET,NYJ,Detroit Lions,New York Jets,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_HOU_IND,IND,HOU,Indianapolis Colts,Houston Texans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_NE_JAX,JAX,NE,Jacksonville Jaguars,New England Patriots,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_KC_MIA,MIA,KC,Miami Dolphins,Kansas City Chiefs,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_TEN_NYG,NYG,TEN,New York Giants,Tennessee Titans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_CIN_PIT,PIT,CIN,Pittsburgh Steelers,Cincinnati Bengals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_SEA_WAS,WAS,SEA,Washington Commanders,Seattle Seahawks,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_ARI_SF,SF,ARI,San Francisco 49ers,Arizona Cardinals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_MIN_TB,TB,MIN,Tampa Bay Buccaneers,Minnesota Vikings,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_BAL_DAL,DAL,BAL,Dallas Cowboys,Baltimore Ravens,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_LV_NO,NO,LV,New Orleans Saints,Las Vegas Raiders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-27,False,2026_03_LA_DEN,DEN,LA,Denver Broncos,Los Angeles Rams,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,3,2026-09-28,False,2026_03_PHI_CHI,CHI,PHI,Chicago Bears,Philadelphia Eagles,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-01,False,2026_04_PIT_CLE,CLE,PIT,Cleveland Browns,Pittsburgh Steelers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_IND_WAS,WAS,IND,Washington Commanders,Indianapolis Colts,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_TEN_BAL,BAL,TEN,Baltimore Ravens,Tennessee Titans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_NE_BUF,BUF,NE,Buffalo Bills,New England Patriots,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_NYJ_CHI,CHI,NYJ,Chicago Bears,New York Jets,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_JAX_CIN,CIN,JAX,Cincinnati Bengals,Jacksonville Jaguars,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_DAL_HOU,HOU,DAL,Houston Texans,Dallas Cowboys,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_ARI_NYG,NYG,ARI,New York Giants,Arizona Cardinals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_LA_PHI,PHI,LA,Philadelphia Eagles,Los Angeles Rams,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_GB_TB,TB,GB,Tampa Bay Buccaneers,Green Bay Packers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_MIA_MIN,MIN,MIA,Minnesota Vikings,Miami Dolphins,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_KC_LV,LV,KC,Las Vegas Raiders,Kansas City Chiefs,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_LAC_SEA,SEA,LAC,Seattle Seahawks,Los Angeles Chargers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_DEN_SF,SF,DEN,San Francisco 49ers,Denver Broncos,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-04,False,2026_04_DET_CAR,CAR,DET,Carolina Panthers,Detroit Lions,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,4,2026-10-05,False,2026_04_ATL_NO,NO,ATL,New Orleans Saints,Atlanta Falcons,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-08,False,2026_05_TB_DAL,DAL,TB,Dallas Cowboys,Tampa Bay Buccaneers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_PHI_JAX,JAX,PHI,Jacksonville Jaguars,Philadelphia Eagles,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_CIN_MIA,MIA,CIN,Miami Dolphins,Cincinnati Bengals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_LV_NE,NE,LV,New England Patriots,Las Vegas Raiders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_MIN_NO,NO,MIN,New Orleans Saints,Minnesota Vikings,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_CLE_NYJ,NYJ,CLE,New York Jets,Cleveland Browns,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_IND_PIT,PIT,IND,Pittsburgh Steelers,Indianapolis Colts,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_HOU_TEN,TEN,HOU,Tennessee Titans,Houston Texans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_NYG_WAS,WAS,NYG,Washington Commanders,New York Giants,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_DEN_LAC,LAC,DEN,Los Angeles Chargers,Denver Broncos,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_DET_ARI,ARI,DET,Arizona Cardinals,Detroit Lions,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_CHI_GB,GB,CHI,Green Bay Packers,Chicago Bears,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_SF_SEA,SEA,SF,Seattle Seahawks,San Francisco 49ers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-11,False,2026_05_BAL_ATL,ATL,BAL,Atlanta Falcons,Baltimore Ravens,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,5,2026-10-12,False,2026_05_BUF_LA,LA,BUF,Los Angeles Rams,Buffalo Bills,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-15,False,2026_06_SEA_DEN,DEN,SEA,Denver Broncos,Seattle Seahawks,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_HOU_JAX,JAX,HOU,Jacksonville Jaguars,Houston Texans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_CHI_ATL,ATL,CHI,Atlanta Falcons,Chicago Bears,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_BAL_CLE,CLE,BAL,Cleveland Browns,Baltimore Ravens,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_TEN_IND,IND,TEN,Indianapolis Colts,Tennessee Titans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_NYJ_NE,NE,NYJ,New England Patriots,New York Jets,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_NO_NYG,NYG,NO,New York Giants,New Orleans Saints,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_CAR_PHI,PHI,CAR,Philadelphia Eagles,Carolina Panthers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_PIT_TB,TB,PIT,Tampa Bay Buccaneers,Pittsburgh Steelers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_ARI_LA,LA,ARI,Los Angeles Rams,Arizona Cardinals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_LAC_KC,KC,LAC,Kansas City Chiefs,Los Angeles Chargers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_BUF_LV,LV,BUF,Las Vegas Raiders,Buffalo Bills,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-18,False,2026_06_DAL_GB,GB,DAL,Green Bay Packers,Dallas Cowboys,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,6,2026-10-19,False,2026_06_WAS_SF,SF,WAS,San Francisco 49ers,Washington Commanders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-22,False,2026_07_NE_CHI,CHI,NE,Chicago Bears,New England Patriots,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_PIT_NO,NO,PIT,New Orleans Saints,Pittsburgh Steelers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_SF_ATL,ATL,SF,Atlanta Falcons,San Francisco 49ers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_CIN_BAL,BAL,CIN,Baltimore Ravens,Cincinnati Bengals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_TB_CAR,CAR,TB,Carolina Panthers,Tampa Bay Buccaneers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_NYG_HOU,HOU,NYG,Houston Texans,New York Giants,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_IND_MIN,MIN,IND,Minnesota Vikings,Indianapolis Colts,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_MIA_NYJ,NYJ,MIA,New York Jets,Miami Dolphins,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_CLE_TEN,TEN,CLE,Tennessee Titans,Cleveland Browns,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_DEN_ARI,ARI,DEN,Arizona Cardinals,Denver Broncos,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_GB_DET,DET,GB,Detroit Lions,Green Bay Packers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_LA_LV,LV,LA,Las Vegas Raiders,Los Angeles Rams,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-25,False,2026_07_KC_SEA,SEA,KC,Seattle Seahawks,Kansas City Chiefs,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,7,2026-10-26,False,2026_07_DAL_PHI,PHI,DAL,Philadelphia Eagles,Dallas Cowboys,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-10-29,False,2026_08_CAR_GB,GB,CAR,Green Bay Packers,Carolina Panthers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_BAL_BUF,BUF,BAL,Buffalo Bills,Baltimore Ravens,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_TEN_CIN,CIN,TEN,Cincinnati Bengals,Tennessee Titans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_ARI_DAL,DAL,ARI,Dallas Cowboys,Arizona Cardinals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_MIN_DET,DET,MIN,Detroit Lions,Minnesota Vikings,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_IND_JAX,JAX,IND,Jacksonville Jaguars,Indianapolis Colts,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_LV_NYJ,NYJ,LV,New York Jets,Las Vegas Raiders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_CLE_PIT,PIT,CLE,Pittsburgh Steelers,Cleveland Browns,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_ATL_TB,TB,ATL,Tampa Bay Buccaneers,Atlanta Falcons,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_LAC_LA,LA,LAC,Los Angeles Rams,Los Angeles Chargers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_KC_DEN,DEN,KC,Denver Broncos,Kansas City Chiefs,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_NE_MIA,MIA,NE,Miami Dolphins,New England Patriots,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-01,False,2026_08_PHI_WAS,WAS,PHI,Washington Commanders,Philadelphia Eagles,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,8,2026-11-02,False,2026_08_CHI_SEA,SEA,CHI,Seattle Seahawks,Chicago Bears,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-05,False,2026_09_JAX_BAL,BAL,JAX,Baltimore Ravens,Jacksonville Jaguars,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_CIN_ATL,ATL,CIN,Atlanta Falcons,Cincinnati Bengals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_DEN_CAR,CAR,DEN,Carolina Panthers,Denver Broncos,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_DAL_IND,IND,DAL,Indianapolis Colts,Dallas Cowboys,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_NYJ_KC,KC,NYJ,Kansas City Chiefs,New York Jets,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_DET_MIA,MIA,DET,Miami Dolphins,Detroit Lions,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_CLE_NO,NO,CLE,New Orleans Saints,Cleveland Browns,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_NYG_PHI,PHI,NYG,Philadelphia Eagles,New York Giants,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_LA_WAS,WAS,LA,Washington Commanders,Los Angeles Rams,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_HOU_LAC,LAC,HOU,Los Angeles Chargers,Houston Texans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_LV_SF,SF,LV,San Francisco 49ers,Las Vegas Raiders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_GB_NE,NE,GB,New England Patriots,Green Bay Packers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_ARI_SEA,SEA,ARI,Seattle Seahawks,Arizona Cardinals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-08,False,2026_09_TB_CHI,CHI,TB,Chicago Bears,Tampa Bay Buccaneers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,9,2026-11-09,False,2026_09_BUF_MIN,MIN,BUF,Minnesota Vikings,Buffalo Bills,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-12,False,2026_10_WAS_NYG,NYG,WAS,New York Giants,Washington Commanders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_NE_DET,DET,NE,Detroit Lions,New England Patriots,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_KC_ATL,ATL,KC,Atlanta Falcons,Kansas City Chiefs,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_HOU_CLE,CLE,HOU,Cleveland Browns,Houston Texans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_MIN_GB,GB,MIN,Green Bay Packers,Minnesota Vikings,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_MIA_IND,IND,MIA,Indianapolis Colts,Miami Dolphins,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_CAR_NO,NO,CAR,New Orleans Saints,Carolina Panthers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_BUF_NYJ,NYJ,BUF,New York Jets,Buffalo Bills,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_JAX_TEN,TEN,JAX,Tennessee Titans,Jacksonville Jaguars,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_LA_ARI,ARI,LA,Arizona Cardinals,Los Angeles Rams,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_SEA_LV,LV,SEA,Las Vegas Raiders,Seattle Seahawks,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_SF_DAL,DAL,SF,Dallas Cowboys,San Francisco 49ers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-15,False,2026_10_PIT_CIN,CIN,PIT,Cincinnati Bengals,Pittsburgh Steelers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,10,2026-11-16,False,2026_10_LAC_BAL,BAL,LAC,Baltimore Ravens,Los Angeles Chargers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-19,False,2026_11_IND_HOU,HOU,IND,Houston Texans,Indianapolis Colts,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_MIA_BUF,BUF,MIA,Buffalo Bills,Miami Dolphins,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_BAL_CAR,CAR,BAL,Carolina Panthers,Baltimore Ravens,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_NO_CHI,CHI,NO,Chicago Bears,New Orleans Saints,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_TEN_DAL,DAL,TEN,Dallas Cowboys,Tennessee Titans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_TB_DET,DET,TB,Detroit Lions,Tampa Bay Buccaneers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_ARI_KC,KC,ARI,Kansas City Chiefs,Arizona Cardinals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_JAX_NYG,NYG,JAX,New York Giants,Jacksonville Jaguars,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_NYJ_LAC,LAC,NYJ,Los Angeles Chargers,New York Jets,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_LV_DEN,DEN,LV,Denver Broncos,Las Vegas Raiders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_PIT_PHI,PHI,PIT,Philadelphia Eagles,Pittsburgh Steelers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-22,False,2026_11_MIN_SF,SF,MIN,San Francisco 49ers,Minnesota Vikings,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,11,2026-11-23,False,2026_11_CIN_WAS,WAS,CIN,Washington Commanders,Cincinnati Bengals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-25,False,2026_12_GB_LA,LA,GB,Los Angeles Rams,Green Bay Packers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-26,False,2026_12_CHI_DET,DET,CHI,Detroit Lions,Chicago Bears,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-26,False,2026_12_PHI_DAL,DAL,PHI,Dallas Cowboys,Philadelphia Eagles,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-26,False,2026_12_KC_BUF,BUF,KC,Buffalo Bills,Kansas City Chiefs,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-27,False,2026_12_DEN_PIT,PIT,DEN,Pittsburgh Steelers,Denver Broncos,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_NO_CIN,CIN,NO,Cincinnati Bengals,New Orleans Saints,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_LV_CLE,CLE,LV,Cleveland Browns,Las Vegas Raiders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_BAL_HOU,HOU,BAL,Houston Texans,Baltimore Ravens,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_NYG_IND,IND,NYG,Indianapolis Colts,New York Giants,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_NYJ_MIA,MIA,NYJ,Miami Dolphins,New York Jets,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_ATL_MIN,MIN,ATL,Minnesota Vikings,Atlanta Falcons,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_TEN_JAX,JAX,TEN,Jacksonville Jaguars,Tennessee Titans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_WAS_ARI,ARI,WAS,Arizona Cardinals,Washington Commanders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_SEA_SF,SF,SEA,San Francisco 49ers,Seattle Seahawks,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-29,False,2026_12_NE_LAC,LAC,NE,Los Angeles Chargers,New England Patriots,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,12,2026-11-30,False,2026_12_CAR_TB,TB,CAR,Tampa Bay Buccaneers,Carolina Panthers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-03,False,2026_13_KC_LA,LA,KC,Los Angeles Rams,Kansas City Chiefs,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_DET_ATL,ATL,DET,Atlanta Falcons,Detroit Lions,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_JAX_CHI,CHI,JAX,Chicago Bears,Jacksonville Jaguars,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_CIN_CLE,CLE,CIN,Cleveland Browns,Cincinnati Bengals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_GB_NO,NO,GB,New Orleans Saints,Green Bay Packers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_SF_NYG,NYG,SF,New York Giants,San Francisco 49ers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_LAC_TB,TB,LAC,Tampa Bay Buccaneers,Los Angeles Chargers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_WAS_TEN,TEN,WAS,Tennessee Titans,Washington Commanders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_PHI_ARI,ARI,PHI,Arizona Cardinals,Philadelphia Eagles,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_MIA_DEN,DEN,MIA,Denver Broncos,Miami Dolphins,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_CAR_MIN,MIN,CAR,Minnesota Vikings,Carolina Panthers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_BUF_NE,NE,BUF,New England Patriots,Buffalo Bills,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-06,False,2026_13_HOU_PIT,PIT,HOU,Pittsburgh Steelers,Houston Texans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,13,2026-12-07,False,2026_13_DAL_SEA,SEA,DAL,Seattle Seahawks,Dallas Cowboys,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-10,False,2026_14_MIN_NE,NE,MIN,New England Patriots,Minnesota Vikings,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_TB_BAL,BAL,TB,Baltimore Ravens,Tampa Bay Buccaneers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_NO_CAR,CAR,NO,Carolina Panthers,New Orleans Saints,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_ATL_CLE,CLE,ATL,Cleveland Browns,Atlanta Falcons,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_TEN_DET,DET,TEN,Detroit Lions,Tennessee Titans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_CHI_MIA,MIA,CHI,Miami Dolphins,Chicago Bears,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_DEN_NYJ,NYJ,DEN,New York Jets,Denver Broncos,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_IND_PHI,PHI,IND,Philadelphia Eagles,Indianapolis Colts,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_HOU_WAS,WAS,HOU,Washington Commanders,Houston Texans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_LAC_LV,LV,LAC,Las Vegas Raiders,Los Angeles Chargers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_KC_CIN,CIN,KC,Cincinnati Bengals,Kansas City Chiefs,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_NYG_SEA,SEA,NYG,Seattle Seahawks,New York Giants,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_LA_SF,SF,LA,San Francisco 49ers,Los Angeles Rams,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-13,False,2026_14_BUF_GB,GB,BUF,Green Bay Packers,Buffalo Bills,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,14,2026-12-14,False,2026_14_PIT_JAX,JAX,PIT,Jacksonville Jaguars,Pittsburgh Steelers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-17,False,2026_15_SF_LAC,LAC,SF,Los Angeles Chargers,San Francisco 49ers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-19,False,2026_15_SEA_PHI,PHI,SEA,Philadelphia Eagles,Seattle Seahawks,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-19,False,2026_15_CHI_BUF,BUF,CHI,Buffalo Bills,Chicago Bears,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_CIN_CAR,CAR,CIN,Carolina Panthers,Cincinnati Bengals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_MIA_GB,GB,MIA,Green Bay Packers,Miami Dolphins,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_JAX_HOU,HOU,JAX,Houston Texans,Jacksonville Jaguars,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_CLE_NYG,NYG,CLE,New York Giants,Cleveland Browns,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_BAL_PIT,PIT,BAL,Pittsburgh Steelers,Baltimore Ravens,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_NO_TB,TB,NO,Tampa Bay Buccaneers,New Orleans Saints,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_IND_TEN,TEN,IND,Tennessee Titans,Indianapolis Colts,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_ATL_WAS,WAS,ATL,Washington Commanders,Atlanta Falcons,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_NYJ_ARI,ARI,NYJ,Arizona Cardinals,New York Jets,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_DAL_LA,LA,DAL,Los Angeles Rams,Dallas Cowboys,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_DEN_LV,LV,DEN,Las Vegas Raiders,Denver Broncos,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-20,False,2026_15_DET_MIN,MIN,DET,Minnesota Vikings,Detroit Lions,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,15,2026-12-21,False,2026_15_NE_KC,KC,NE,Kansas City Chiefs,New England Patriots,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-24,False,2026_16_HOU_PHI,PHI,HOU,Philadelphia Eagles,Houston Texans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-25,False,2026_16_GB_CHI,CHI,GB,Chicago Bears,Green Bay Packers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-25,False,2026_16_BUF_DEN,DEN,BUF,Denver Broncos,Buffalo Bills,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-25,False,2026_16_LA_SEA,SEA,LA,Seattle Seahawks,Los Angeles Rams,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_TB_ATL,ATL,TB,Atlanta Falcons,Tampa Bay Buccaneers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_CLE_BAL,BAL,CLE,Baltimore Ravens,Cleveland Browns,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_CIN_IND,IND,CIN,Indianapolis Colts,Cincinnati Bengals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_LAC_MIA,MIA,LAC,Miami Dolphins,Los Angeles Chargers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_WAS_MIN,MIN,WAS,Minnesota Vikings,Washington Commanders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_ARI_NO,NO,ARI,New Orleans Saints,Arizona Cardinals,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_NE_NYJ,NYJ,NE,New York Jets,New England Patriots,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_CAR_PIT,PIT,CAR,Pittsburgh Steelers,Carolina Panthers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_TEN_LV,LV,TEN,Las Vegas Raiders,Tennessee Titans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_SF_KC,KC,SF,Kansas City Chiefs,San Francisco 49ers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-27,False,2026_16_JAX_DAL,DAL,JAX,Dallas Cowboys,Jacksonville Jaguars,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,16,2026-12-28,False,2026_16_NYG_DET,DET,NYG,Detroit Lions,New York Giants,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2026-12-31,False,2026_17_BAL_CIN,CIN,BAL,Cincinnati Bengals,Baltimore Ravens,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_NO_ATL,ATL,NO,Atlanta Falcons,New Orleans Saints,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_SEA_CAR,CAR,SEA,Carolina Panthers,Seattle Seahawks,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_IND_CLE,CLE,IND,Cleveland Browns,Indianapolis Colts,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_NYG_DAL,DAL,NYG,Dallas Cowboys,New York Giants,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_WAS_JAX,JAX,WAS,Jacksonville Jaguars,Washington Commanders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_KC_LAC,LAC,KC,Los Angeles Chargers,Kansas City Chiefs,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_BUF_MIA,MIA,BUF,Miami Dolphins,Buffalo Bills,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_DEN_NE,NE,DEN,New England Patriots,Denver Broncos,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_MIN_NYJ,NYJ,MIN,New York Jets,Minnesota Vikings,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_LA_TB,TB,LA,Tampa Bay Buccaneers,Los Angeles Rams,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_PIT_TEN,TEN,PIT,Tennessee Titans,Pittsburgh Steelers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_LV_ARI,ARI,LV,Arizona Cardinals,Las Vegas Raiders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_DET_CHI,CHI,DET,Chicago Bears,Detroit Lions,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-03,False,2026_17_PHI_SF,SF,PHI,San Francisco 49ers,Philadelphia Eagles,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,17,2027-01-04,False,2026_17_HOU_GB,GB,HOU,Green Bay Packers,Houston Texans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_SF_ARI,ARI,SF,Arizona Cardinals,San Francisco 49ers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_PIT_BAL,BAL,PIT,Baltimore Ravens,Pittsburgh Steelers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_NYJ_BUF,BUF,NYJ,Buffalo Bills,New York Jets,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_ATL_CAR,CAR,ATL,Carolina Panthers,Atlanta Falcons,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_CLE_CIN,CIN,CLE,Cincinnati Bengals,Cleveland Browns,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_LAC_DEN,DEN,LAC,Denver Broncos,Los Angeles Chargers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_DET_GB,GB,DET,Green Bay Packers,Detroit Lions,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_TEN_HOU,HOU,TEN,Houston Texans,Tennessee Titans,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_JAX_IND,IND,JAX,Indianapolis Colts,Jacksonville Jaguars,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_LV_KC,KC,LV,Kansas City Chiefs,Las Vegas Raiders,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_SEA_LA,LA,SEA,Los Angeles Rams,Seattle Seahawks,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_CHI_MIN,MIN,CHI,Minnesota Vikings,Chicago Bears,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_MIA_NE,NE,MIA,New England Patriots,Miami Dolphins,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_TB_NO,NO,TB,New Orleans Saints,Tampa Bay Buccaneers,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_PHI_NYG,NYG,PHI,New York Giants,Philadelphia Eagles,,,,,,,,,,,,,,,,,,,,,0,unknown
+2026,18,2027-01-10,False,2026_18_DAL_WAS,WAS,DAL,Washington Commanders,Dallas Cowboys,,,,,,,,,,,,,,,,,,,,,0,unknown
