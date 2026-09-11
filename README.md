@@ -69,18 +69,19 @@ Data/offensive_team_logs_from_nfl_data_py_1999_2026.csv
 
 ---
 
-### 3) Train Models (lagged features, recommended)
+### 3) Train / predict (baseline + form, recommended)
 
 From the project root:
 
 ```bash
 python train_model.py
 python train_model.py --predict-week 2026 1
+python train_model.py --ml   # optional: also report lagged ML holdout metrics
 ```
 
-This builds **season-to-date** offensive and defensive features (through the prior week only),
-trains on seasons before 2019, evaluates on 2019+, and saves week predictions under `outputs/`.
-Default prediction target is **Week 1, 2026** (full schedule is in the offensive logs; PBP fills in as games are played).
+Week predictions use a **home baseline** (~56%) adjusted by offense/defense form:
+prior-season averages for week 1, season-to-date through the prior week afterward.
+Params are saved to `outputs/form_model_params.json`; week CSVs under `outputs/`.
 
 ### 4) Notebook experiments
 
