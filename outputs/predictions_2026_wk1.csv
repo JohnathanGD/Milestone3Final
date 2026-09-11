@@ -1,0 +1,17 @@
+schedule_season,schedule_week,team_home,team_away,home_abbr,away_abbr,score_home,score_away,game_result,pred_home_win_prob,predicted_winner,confidence,actual_winner,correct
+2026,1,Carolina Panthers,Chicago Bears,CAR,CHI,,,unknown,0.6229170840701476,Carolina Panthers,0.6229170840701476,,
+2026,1,Cincinnati Bengals,Tampa Bay Buccaneers,CIN,TB,,,unknown,0.6229170840701476,Cincinnati Bengals,0.6229170840701476,,
+2026,1,Detroit Lions,New Orleans Saints,DET,NO,,,unknown,0.6229170840701476,Detroit Lions,0.6229170840701476,,
+2026,1,Houston Texans,Buffalo Bills,HOU,BUF,,,unknown,0.6229170840701476,Houston Texans,0.6229170840701476,,
+2026,1,Indianapolis Colts,Baltimore Ravens,IND,BAL,,,unknown,0.6229170840701476,Indianapolis Colts,0.6229170840701476,,
+2026,1,Jacksonville Jaguars,Cleveland Browns,JAX,CLE,,,unknown,0.6229170840701476,Jacksonville Jaguars,0.6229170840701476,,
+2026,1,Kansas City Chiefs,Denver Broncos,KC,DEN,,,unknown,0.6229170840701476,Kansas City Chiefs,0.6229170840701476,,
+2026,1,Las Vegas Raiders,Miami Dolphins,LV,MIA,,,unknown,0.6229170840701476,Las Vegas Raiders,0.6229170840701476,,
+2026,1,Los Angeles Chargers,Arizona Cardinals,LAC,ARI,,,unknown,0.6229170840701476,Los Angeles Chargers,0.6229170840701476,,
+2026,1,Los Angeles Rams,San Francisco 49ers,LA,SF,,,unknown,0.6229170840701476,Los Angeles Rams,0.6229170840701476,,
+2026,1,Minnesota Vikings,Green Bay Packers,MIN,GB,,,unknown,0.6229170840701476,Minnesota Vikings,0.6229170840701476,,
+2026,1,New York Giants,Dallas Cowboys,NYG,DAL,,,unknown,0.6229170840701476,New York Giants,0.6229170840701476,,
+2026,1,Philadelphia Eagles,Washington Commanders,PHI,WAS,,,unknown,0.6229170840701476,Philadelphia Eagles,0.6229170840701476,,
+2026,1,Pittsburgh Steelers,Atlanta Falcons,PIT,ATL,,,unknown,0.6229170840701476,Pittsburgh Steelers,0.6229170840701476,,
+2026,1,Seattle Seahawks,New England Patriots,SEA,NE,13.0,10.0,home_win,0.6620338594374097,Seattle Seahawks,0.6620338594374097,Seattle Seahawks,True
+2026,1,Tennessee Titans,New York Jets,TEN,NYJ,,,unknown,0.6229170840701476,Tennessee Titans,0.6229170840701476,,

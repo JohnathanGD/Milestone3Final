@@ -1,9 +1,42 @@
 #!/usr/bin/env python3
 
+from datetime import date
+
 import pandas as pd
 import nfl_data_py as nfl
 
-OUTPUT_PATH = "Data/offensive_team_logs_from_nfl_data_py_1999_2025.csv"
+def latest_season() -> int:
+    today = date.today()
+    return today.year - 1 if today.month < 9 else today.year
+
+def load_schedules_and_pbp(start_season=1999, end_season=None):
+    """Load full schedules + whatever PBP is published (schedule kept even if PBP is sparse)."""
+    if end_season is None:
+        end_season = latest_season()
+    sched_frames, pbp_frames = [], []
+    for yr in range(start_season, end_season + 1):
+        try:
+            sched_frames.append(nfl.import_schedules([yr]))
+            print(f"{yr} schedule done.")
+        except Exception as exc:
+            print(f"{yr} schedule skipped: {exc}")
+        try:
+            pbp_frames.append(
+                nfl.import_pbp_data(
+                    [yr], downcast=True, cache=False, include_participation=False
+                )
+            )
+            print(f"{yr} pbp done.")
+        except Exception as exc:
+            print(f"{yr} pbp skipped: {exc}")
+    if not sched_frames:
+        raise RuntimeError(f"No schedule data loaded for {start_season}-{end_season}")
+    if not pbp_frames:
+        raise RuntimeError(f"No play-by-play data loaded for {start_season}-{end_season}")
+    return (
+        pd.concat(sched_frames, ignore_index=True),
+        pd.concat(pbp_frames, ignore_index=True),
+    )
 
 TEAM_FULL = {
     "ARI": "Arizona Cardinals",
@@ -44,10 +77,9 @@ TEAM_FULL = {
 }
 
 def main():
-    # Seasons to pull
-    years = list(range(1999, 2026))
-    sched = nfl.import_schedules(years)
-    pbp = nfl.import_pbp_data(years)
+    end_season = latest_season()  # includes 2026 once published
+    sched, pbp = load_schedules_and_pbp(1999, end_season)
+    output_path = f"Data/offensive_team_logs_from_nfl_data_py_1999_{end_season}.csv"
 
     game_type_col = "game_type" if "game_type" in sched.columns else "season_type"
 
@@ -214,7 +246,8 @@ def main():
 
     df["game_result"] = df.apply(outcome, axis=1)
 
-    df.to_csv(OUTPUT_PATH, index=False)
+    df.to_csv(output_path, index=False)
+    print(f"Wrote {len(df)} rows -> {output_path}")
 
 
 if __name__ == "__main__":

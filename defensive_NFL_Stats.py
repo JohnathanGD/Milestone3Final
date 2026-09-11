@@ -1,15 +1,35 @@
 #!/usr/bin/env python3
 
+from datetime import date
+
 import pandas as pd
 import nfl_data_py as nfl
 
 def safe_div(n, d):
     return n / d if d not in (0, None) else 0.0
 
-def load_pbp(start_season=1999, end_season=2026):
-    years = list(range(start_season, end_season + 1))
-    pbp = nfl.import_pbp_data(years, downcast=True, cache=False)
-    return pbp
+def latest_season() -> int:
+    """Current NFL season year (before September, prior year is the latest complete)."""
+    today = date.today()
+    return today.year - 1 if today.month < 9 else today.year
+
+def load_pbp(start_season=1999, end_season=None):
+    if end_season is None:
+        end_season = latest_season()
+    frames = []
+    for yr in range(start_season, end_season + 1):
+        try:
+            frames.append(
+                nfl.import_pbp_data(
+                    [yr], downcast=True, cache=False, include_participation=False
+                )
+            )
+            print(f"{yr} done.")
+        except Exception as exc:
+            print(f"{yr} skipped: {exc}")
+    if not frames:
+        raise RuntimeError(f"No play-by-play data loaded for {start_season}-{end_season}")
+    return pd.concat(frames, ignore_index=True)
 
 def build_defense_logs(pbp: pd.DataFrame) -> pd.DataFrame:
     pbp = pbp[pbp["season_type"] == "REG"].copy()
@@ -190,10 +210,12 @@ def build_defense_logs(pbp: pd.DataFrame) -> pd.DataFrame:
     return defense
 
 def main():
-    pbp = load_pbp(1999, 2026)
+    end_season = latest_season()  # includes 2026 once published
+    pbp = load_pbp(1999, end_season)
     defense = build_defense_logs(pbp)
-    out_path = "Data/team_defense_game_logs_1999_2025.csv"
+    out_path = f"Data/team_defense_game_logs_1999_{end_season}.csv"
     defense.to_csv(out_path, index=False)
+    print(f"Wrote {len(defense)} rows -> {out_path}")
 
 if __name__ == "__main__":
     main()

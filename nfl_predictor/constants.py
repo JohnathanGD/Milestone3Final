@@ -6,11 +6,24 @@ DATA_DIR = ROOT / "Data"
 OUTPUTS_DIR = ROOT / "outputs"
 MODELS_DIR = OUTPUTS_DIR / "models"
 
-OFFENSE_PATH = DATA_DIR / "offensive_team_logs_from_nfl_data_py_1999_2025.csv"
-DEFENSE_PATH = DATA_DIR / "team_defense_game_logs_1999_2025.csv"
+def _latest_data_csv(pattern: str, fallback: str) -> Path:
+    matches = sorted(DATA_DIR.glob(pattern))
+    return matches[-1] if matches else DATA_DIR / fallback
+
+
+OFFENSE_PATH = _latest_data_csv(
+    "offensive_team_logs_from_nfl_data_py_1999_*.csv",
+    "offensive_team_logs_from_nfl_data_py_1999_2026.csv",
+)
+DEFENSE_PATH = _latest_data_csv(
+    "team_defense_game_logs_1999_*.csv",
+    "team_defense_game_logs_1999_2026.csv",
+)
 
 SEED = 42
 EXTRAPOLATION_CUTOFF_SEASON = 2019
+DEFAULT_PREDICT_SEASON = 2026
+DEFAULT_PREDICT_WEEK = 1
 
 TEAM_FULL = {
     "ARI": "Arizona Cardinals",

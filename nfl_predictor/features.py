@@ -247,6 +247,27 @@ def add_differential_features(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def _as_of_team_means(
+    long_df: pd.DataFrame,
+    season_col: str,
+    week_col: str,
+    team_col: str,
+    season: int,
+    before_week: int,
+    value_cols: list[str],
+) -> pd.DataFrame:
+    """Season-to-date means per team using only games strictly before `before_week`."""
+    if not value_cols:
+        return pd.DataFrame(columns=[team_col])
+    prior = long_df[
+        (long_df[season_col] == season) & (long_df[week_col] < before_week)
+    ].copy()
+    if prior.empty:
+        return pd.DataFrame(columns=[team_col] + value_cols)
+    means = prior.groupby(team_col, as_index=False)[value_cols].mean()
+    return means
+
+
 def build_week_features(
     off: pd.DataFrame,
     defense: pd.DataFrame,
@@ -256,28 +277,106 @@ def build_week_features(
     train_means: pd.Series,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Pre-game features for all games in (season, week).
-    Uses the same lagged logic as training (stats through week-1).
+    Pre-game features for all scheduled games in (season, week), including unplayed.
+    Uses season-to-date offense/defense through the prior week only.
     """
     off = _normalize_game_teams(off)
+    defense = defense.copy()
+    for col in ["defteam", "home_team", "away_team"]:
+        if col in defense.columns:
+            defense[col] = defense[col].replace(TEAM_ABBR_NORMALIZE)
+
     wk = off[(off["schedule_season"] == season) & (off["schedule_week"] == week)].copy()
     if wk.empty:
         return pd.DataFrame(columns=feature_columns), pd.DataFrame()
 
-    full_X, full_meta, _ = build_lagged_game_table(off, defense)
-    mask = (full_meta["schedule_season"] == season) & (
-        full_meta["schedule_week"] == week
+    games = wk.copy()
+    if "schedule_playoff" in games.columns:
+        games["schedule_playoff"] = games["schedule_playoff"].astype(int)
+    if "temp" in games.columns:
+        games["temp"] = pd.to_numeric(games["temp"], errors="coerce")
+    if "spread_line" in games.columns:
+        games["home_favorite"] = np.where(
+            games["spread_line"] < 0,
+            1,
+            np.where(games["spread_line"] > 0, 0, np.nan),
+        )
+        games["home_favorite"] = games["home_favorite"].fillna(0).astype(int)
+
+    def_num = defense_numeric_cols(defense)
+    def_means = _as_of_team_means(
+        defense, "season", "week", "defteam", season, week, def_num
     )
-    if not mask.any():
-        return pd.DataFrame(columns=feature_columns), pd.DataFrame()
+    if not def_means.empty:
+        home_def = def_means.rename(
+            columns={"defteam": "home_abbr", **{c: f"home_def_{c}" for c in def_num}}
+        )
+        away_def = def_means.rename(
+            columns={"defteam": "away_abbr", **{c: f"away_def_{c}" for c in def_num}}
+        )
+        games = games.merge(home_def, on="home_abbr", how="left")
+        games = games.merge(away_def, on="away_abbr", how="left")
 
-    X_wk = full_X.loc[mask].copy()
-    meta = full_meta.loc[mask].copy()
+    off_long = build_offense_team_games(off)
+    # Only use played games (have EPA) when building offense priors
+    off_num = [c for c in off_long.columns if c.startswith("off_")]
+    scored = off_long.dropna(subset=[c for c in off_num if c in off_long.columns], how="all")
+    off_means = _as_of_team_means(
+        scored,
+        "schedule_season",
+        "schedule_week",
+        "team_abbr",
+        season,
+        week,
+        off_num,
+    )
+    if not off_means.empty:
+        home_off = off_means.rename(
+            columns={
+                "team_abbr": "home_abbr",
+                "off_epa": "total_home_epa",
+                "off_rush_epa": "total_home_rush_epa",
+                "off_pass_epa": "total_home_pass_epa",
+                "off_qb_epa": "home_qb_epa",
+            }
+        )
+        away_off = off_means.rename(
+            columns={
+                "team_abbr": "away_abbr",
+                "off_epa": "total_away_epa",
+                "off_rush_epa": "total_away_rush_epa",
+                "off_pass_epa": "total_away_pass_epa",
+                "off_qb_epa": "away_qb_epa",
+            }
+        )
+        games = games.merge(home_off, on="home_abbr", how="left")
+        games = games.merge(away_off, on="away_abbr", how="left")
 
-    X_wk = X_wk.reindex(columns=feature_columns)
+    games = add_differential_features(games)
+    games = games.loc[:, ~games.columns.duplicated()]
+
+    label_meta = [
+        "team_home",
+        "team_away",
+        "home_abbr",
+        "away_abbr",
+        "score_home",
+        "score_away",
+        "game_result",
+    ]
+    meta = games[
+        ["schedule_season", "schedule_week"]
+        + [c for c in label_meta if c in games.columns]
+    ].copy()
+
+    X_wk = games.reindex(columns=feature_columns)
     for col in X_wk.columns:
-        if np.issubdtype(X_wk[col].dtype, np.number):
-            fill = train_means[col] if col in train_means.index else 0
-            X_wk[col] = X_wk[col].fillna(fill)
+        if np.issubdtype(X_wk[col].dtype, np.number) or X_wk[col].dtype == object:
+            try:
+                X_wk[col] = pd.to_numeric(X_wk[col], errors="coerce")
+            except (TypeError, ValueError):
+                pass
+        fill = train_means[col] if col in train_means.index else 0
+        X_wk[col] = X_wk[col].fillna(fill)
 
     return X_wk, meta
