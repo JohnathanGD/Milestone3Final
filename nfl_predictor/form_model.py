@@ -23,43 +23,51 @@ from .constants import (
 from .features import (
     _as_of_team_means,
     _normalize_game_teams,
-    _team_season_means,
     build_offense_team_games,
 )
 
 # Higher = better after sign flip for allowed stats.
 OFFENSE_FORM_COLS = ["off_epa", "off_pass_epa", "off_qb_epa"]
+# User-selected defensive deciding factors (game-log columns).
 DEFENSE_FORM_RAW = [
-    "epa_per_play_allowed",
+    "total_yards_allowed",
     "success_rate_allowed",
-    "yards_per_play_allowed",
-    "pressure_rate",
-    "interceptions",
+    "forced_fumbles",
     "fumbles_recovered",
+    "explosive_runs_allowed",
+    "qb_hits",
+    "pressure_rate",
+    "pressures",
 ]
 # Signed components used in the strength score (after z-scoring).
+# Defense signs: allowed/explosive negative; takeaways/pressure positive.
 STRENGTH_COMPONENTS = [
     ("off_epa", 1.0),
     ("off_pass_epa", 1.0),
     ("off_qb_epa", 1.0),
-    ("epa_per_play_allowed", -1.0),
+    ("total_yards_allowed", -1.0),
     ("success_rate_allowed", -1.0),
-    ("yards_per_play_allowed", -1.0),
+    ("forced_fumbles", 1.0),
+    ("fumbles_recovered", 1.0),
+    ("explosive_runs_allowed", -1.0),
+    ("qb_hits", 1.0),
     ("pressure_rate", 1.0),
-    ("turnovers_forced", 1.0),
+    ("pressures", 1.0),
 ]
+OFFENSE_COMPONENT_NAMES = {"off_epa", "off_pass_epa", "off_qb_epa"}
 
-EARLY_BLEND_CAP = 5  # reach full in-season weight by this many games
-# After n in-season games: w = n/(n+PRIOR_STRENGTH).
-# n=1 → 50% current / 50% prior; n=2 → ~67%; n=3 → 75%.
-PRIOR_STRENGTH = 1.0
+# Blend: once the current season has games, weight them vs a multi-year history window.
+HIST_LOOKBACK_YEARS = 5
+IN_SEASON_WEIGHT = 0.60
+HIST_WEIGHT = 0.40
 
 
 @dataclass
 class FormParams:
     p0: float = 0.56
     beta: float = 1.0
-    offense_weight: float = 0.5
+    # Offense slightly ahead of defense (55% / 45%).
+    offense_weight: float = 0.55
     # Expected home margin ≈ spread_intercept + spread_scale * edge
     spread_intercept: float = 2.5
     spread_scale: float = 4.0
@@ -102,9 +110,6 @@ def _prepare_defense(defense: pd.DataFrame) -> pd.DataFrame:
     for col in DEFENSE_FORM_RAW:
         if col in d.columns:
             d[col] = pd.to_numeric(d[col], errors="coerce")
-    d["turnovers_forced"] = d.get("interceptions", 0).fillna(0) + d.get(
-        "fumbles_recovered", 0
-    ).fillna(0)
     return d
 
 
@@ -134,6 +139,25 @@ def _game_counts(
     return prior.groupby(team_col).size()
 
 
+def _team_history_means(
+    long_df: pd.DataFrame,
+    season_col: str,
+    team_col: str,
+    value_cols: list[str],
+    season: int,
+    lookback_years: int = HIST_LOOKBACK_YEARS,
+) -> pd.DataFrame:
+    """Team averages over the previous `lookback_years` completed seasons."""
+    if not value_cols or long_df.empty:
+        return pd.DataFrame(columns=[team_col] + value_cols)
+    lo = season - lookback_years
+    hi = season - 1
+    hist = long_df[(long_df[season_col] >= lo) & (long_df[season_col] <= hi)]
+    if hist.empty:
+        return pd.DataFrame(columns=[team_col] + value_cols)
+    return hist.groupby(team_col, as_index=False)[value_cols].mean()
+
+
 def _blended_team_means(
     long_df: pd.DataFrame,
     season_col: str,
@@ -145,46 +169,50 @@ def _blended_team_means(
     teams: list[str],
 ) -> pd.DataFrame:
     """
-    Within-season means before `before_week`, blended with previous-season fill.
+    Within-season means before `before_week`, blended with past-5-year history.
 
-    Current-season games are weighted with prior-season fill:
-      w_in = n / (n + PRIOR_STRENGTH)   # n=1 → 50%, n=2 → ~67%, ...
-    Week 1 (n=0) stays 100% prior season.
+    - Week 1 / no games yet (n=0): 100% past 5 seasons
+    - Once current-season games exist: 60% in-season + 40% past 5 seasons
     """
     value_cols = [c for c in value_cols if c in long_df.columns]
     within = _as_of_team_means(
         long_df, season_col, week_col, team_col, season, before_week, value_cols
     )
-    prev = _team_season_means(long_df, season_col, team_col, value_cols, season - 1)
+    hist = _team_history_means(long_df, season_col, team_col, value_cols, season)
     counts = _game_counts(long_df, season_col, week_col, team_col, season, before_week)
 
     within_i = (
         within.set_index(team_col) if not within.empty else pd.DataFrame(columns=value_cols)
     )
-    prev_i = prev.set_index(team_col) if not prev.empty else pd.DataFrame(columns=value_cols)
+    hist_i = hist.set_index(team_col) if not hist.empty else pd.DataFrame(columns=value_cols)
 
     rows: list[dict] = []
     for team in teams:
         n = float(counts.get(team, 0) or 0)
-        if n <= 0:
-            w = 0.0
-        elif n >= EARLY_BLEND_CAP:
-            w = 1.0
-        else:
-            w = n / (n + PRIOR_STRENGTH)
+        w_in = 0.0 if n <= 0 else IN_SEASON_WEIGHT
+        w_hist = HIST_WEIGHT if n > 0 else 1.0
+        # If somehow both missing one side, combine_first logic below still applies.
 
         row: dict = {team_col: team}
         for c in value_cols:
-            wv = within_i.at[team, c] if team in within_i.index and c in within_i.columns else np.nan
-            pv = prev_i.at[team, c] if team in prev_i.index and c in prev_i.columns else np.nan
-            if np.isnan(wv) and np.isnan(pv):
+            wv = (
+                within_i.at[team, c]
+                if team in within_i.index and c in within_i.columns
+                else np.nan
+            )
+            hv = (
+                hist_i.at[team, c]
+                if team in hist_i.index and c in hist_i.columns
+                else np.nan
+            )
+            if np.isnan(wv) and np.isnan(hv):
                 row[c] = np.nan
             elif np.isnan(wv):
-                row[c] = float(pv)
-            elif np.isnan(pv):
+                row[c] = float(hv)
+            elif np.isnan(hv):
                 row[c] = float(wv)
             else:
-                row[c] = float(w * wv + (1 - w) * pv)
+                row[c] = float(w_in * wv + w_hist * hv)
         rows.append(row)
     return pd.DataFrame(rows)
 
@@ -201,25 +229,27 @@ def team_priors(
     defense = _prepare_defense(defense)
 
     if teams is None:
+        hist_lo = season - HIST_LOOKBACK_YEARS
         teams = sorted(
             set(off_long.loc[off_long["schedule_season"] == season, "team_abbr"].dropna())
             | set(defense.loc[defense["season"] == season, "defteam"].dropna())
-            | set(off_long.loc[off_long["schedule_season"] == season - 1, "team_abbr"].dropna())
-            | set(defense.loc[defense["season"] == season - 1, "defteam"].dropna())
+            | set(
+                off_long.loc[
+                    (off_long["schedule_season"] >= hist_lo)
+                    & (off_long["schedule_season"] < season),
+                    "team_abbr",
+                ].dropna()
+            )
+            | set(
+                defense.loc[
+                    (defense["season"] >= hist_lo) & (defense["season"] < season),
+                    "defteam",
+                ].dropna()
+            )
         )
 
     off_cols = [c for c in OFFENSE_FORM_COLS if c in off_long.columns]
-    def_cols = [
-        c
-        for c in [
-            "epa_per_play_allowed",
-            "success_rate_allowed",
-            "yards_per_play_allowed",
-            "pressure_rate",
-            "turnovers_forced",
-        ]
-        if c in defense.columns
-    ]
+    def_cols = [c for c in DEFENSE_FORM_RAW if c in defense.columns]
 
     off_priors = _blended_team_means(
         off_long,
@@ -280,7 +310,7 @@ def team_strength(
     off_w = float(params.offense_weight)
     def_w = 1.0 - off_w
 
-    off_names = {"off_epa", "off_pass_epa", "off_qb_epa"}
+    off_names = OFFENSE_COMPONENT_NAMES
     scores = np.zeros(len(priors), dtype=float)
     off_parts: list[np.ndarray] = []
     def_parts: list[np.ndarray] = []
@@ -300,6 +330,7 @@ def team_strength(
     if off_parts:
         scores += off_w * np.mean(np.vstack(off_parts), axis=0)
     if def_parts:
+        # Defense block is averaged over the selected indicators, then scaled by def_w.
         scores += def_w * np.mean(np.vstack(def_parts), axis=0)
     return pd.Series(scores, index=priors.index)
 
@@ -471,7 +502,7 @@ def fit_form_model(
     off: pd.DataFrame,
     defense: pd.DataFrame,
     cutoff_season: int = EXTRAPOLATION_CUTOFF_SEASON,
-    offense_weight: float = 0.5,
+    offense_weight: float = 0.55,
 ) -> FormParams:
     """
     Fit home baseline p0 and edge scale beta on pre-cutoff seasons;

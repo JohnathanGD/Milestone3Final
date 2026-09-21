@@ -45,8 +45,8 @@ def main() -> None:
     parser.add_argument(
         "--offense-weight",
         type=float,
-        default=0.5,
-        help="Form-model weight on offense block vs defense (default: 0.5)",
+        default=0.55,
+        help="Form-model weight on offense vs defense (default: 0.55 → 45% defense)",
     )
     args = parser.parse_args()
 

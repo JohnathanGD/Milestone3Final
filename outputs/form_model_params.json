@@ -1,41 +1,47 @@
 {
   "p0": 0.5726361313151169,
-  "beta": 0.7999999999999999,
-  "offense_weight": 0.5,
-  "spread_intercept": 2.5592664811462944,
-  "spread_scale": 5.779216605214012,
+  "beta": 0.7,
+  "offense_weight": 0.55,
+  "spread_intercept": 2.545237315331566,
+  "spread_scale": 5.530646912557742,
   "feature_means": {
-    "off_epa": -0.9744629546271455,
-    "off_pass_epa": 1.7274254088612657,
-    "off_qb_epa": -0.3172629511306108,
-    "epa_per_play_allowed": -0.025511299748017725,
-    "success_rate_allowed": 0.4171055666695437,
-    "yards_per_play_allowed": 5.333804101326121,
-    "pressure_rate": 0.10858566574476726,
-    "turnovers_forced": 1.5567421954895362
+    "off_epa": -1.0567768703453537,
+    "off_pass_epa": 1.4524158814714865,
+    "off_qb_epa": -0.41063285837128866,
+    "total_yards_allowed": 331.64543374969287,
+    "success_rate_allowed": 0.414927352407651,
+    "forced_fumbles": 0.5994934420873614,
+    "fumbles_recovered": 0.5994934420873614,
+    "explosive_runs_allowed": 2.5764482052298243,
+    "qb_hits": 3.303262609208663,
+    "pressure_rate": 0.10384787571325174,
+    "pressures": 3.8816691044930054
   },
   "feature_stds": {
-    "off_epa": 6.654177379277621,
-    "off_pass_epa": 5.6581001770151,
-    "off_qb_epa": 6.677911854434849,
-    "epa_per_play_allowed": 0.09665892905244741,
-    "success_rate_allowed": 0.0378363893742911,
-    "yards_per_play_allowed": 0.585090952690068,
-    "pressure_rate": 0.042856528905872646,
-    "turnovers_forced": 0.5736568072440423
+    "off_epa": 5.188044761556708,
+    "off_pass_epa": 4.468484300766238,
+    "off_qb_epa": 5.220608209380185,
+    "total_yards_allowed": 33.647026312552896,
+    "success_rate_allowed": 0.030023338285172098,
+    "forced_fumbles": 0.23361596857781702,
+    "fumbles_recovered": 0.23361596857781702,
+    "explosive_runs_allowed": 0.6488157885172159,
+    "qb_hits": 1.7706661166387392,
+    "pressure_rate": 0.036552049057952306,
+    "pressures": 1.4652481739080057
   },
   "train_metrics": {
-    "accuracy": 0.6243365441321015,
-    "auroc": 0.6581346632849413,
-    "brier": 0.22649952641560236,
-    "log_loss": 0.6443538696547113,
-    "away_fav_rate": 0.31354432868095145
+    "accuracy": 0.625122862197759,
+    "auroc": 0.6576505219914788,
+    "brier": 0.22738160599796198,
+    "log_loss": 0.6463186550821027,
+    "away_fav_rate": 0.28720267348142325
   },
   "holdout_metrics": {
-    "accuracy": 0.6246677299308878,
-    "auroc": 0.6728499769516713,
-    "brier": 0.22845257403845592,
-    "log_loss": 0.6482968466817913,
-    "away_fav_rate": 0.32270069112174377
+    "accuracy": 0.6113769271664008,
+    "auroc": 0.6705678517822149,
+    "brier": 0.22996405780406223,
+    "log_loss": 0.6516070760369582,
+    "away_fav_rate": 0.29239766081871343
   }
 }
