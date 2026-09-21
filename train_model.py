@@ -117,7 +117,10 @@ def main() -> None:
                 for c in [
                     "team_home",
                     "team_away",
+                    "pred_away_win_prob",
                     "pred_home_win_prob",
+                    "predicted_spread",
+                    "spread_label",
                     "predicted_winner",
                     "confidence",
                     "edge",

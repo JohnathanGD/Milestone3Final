@@ -2,38 +2,40 @@
   "p0": 0.5726361313151169,
   "beta": 0.7999999999999999,
   "offense_weight": 0.5,
+  "spread_intercept": 2.5592664811462944,
+  "spread_scale": 5.779216605214012,
   "feature_means": {
-    "off_epa": -0.9338725260090823,
-    "off_pass_epa": 1.7176086527290766,
-    "off_qb_epa": -0.27846927160462126,
-    "epa_per_play_allowed": -0.02524594647606363,
-    "success_rate_allowed": 0.41716303934726207,
-    "yards_per_play_allowed": 5.335211330089704,
-    "pressure_rate": 0.10840991754607793,
-    "turnovers_forced": 1.5574100770344816
+    "off_epa": -0.9744629546271455,
+    "off_pass_epa": 1.7274254088612657,
+    "off_qb_epa": -0.3172629511306108,
+    "epa_per_play_allowed": -0.025511299748017725,
+    "success_rate_allowed": 0.4171055666695437,
+    "yards_per_play_allowed": 5.333804101326121,
+    "pressure_rate": 0.10858566574476726,
+    "turnovers_forced": 1.5567421954895362
   },
   "feature_stds": {
-    "off_epa": 6.355054560487186,
-    "off_pass_epa": 5.4010872172606,
-    "off_qb_epa": 6.379591802852456,
-    "epa_per_play_allowed": 0.0908689088472705,
-    "success_rate_allowed": 0.03584564799488812,
-    "yards_per_play_allowed": 0.5529664343041519,
-    "pressure_rate": 0.04154036950149645,
-    "turnovers_forced": 0.5301689232748276
+    "off_epa": 6.654177379277621,
+    "off_pass_epa": 5.6581001770151,
+    "off_qb_epa": 6.677911854434849,
+    "epa_per_play_allowed": 0.09665892905244741,
+    "success_rate_allowed": 0.0378363893742911,
+    "yards_per_play_allowed": 0.585090952690068,
+    "pressure_rate": 0.042856528905872646,
+    "turnovers_forced": 0.5736568072440423
   },
   "train_metrics": {
-    "accuracy": 0.6270886573619029,
-    "auroc": 0.6630174477195303,
-    "brier": 0.22528495465460796,
-    "log_loss": 0.641590899347936,
-    "away_fav_rate": 0.31708275997641044
+    "accuracy": 0.6243365441321015,
+    "auroc": 0.6581346632849413,
+    "brier": 0.22649952641560236,
+    "log_loss": 0.6443538696547113,
+    "away_fav_rate": 0.31354432868095145
   },
   "holdout_metrics": {
-    "accuracy": 0.6270096463022508,
-    "auroc": 0.6822511301908318,
-    "brier": 0.22620024133245073,
-    "log_loss": 0.643389494346185,
-    "away_fav_rate": 0.3285101822079314
+    "accuracy": 0.6246677299308878,
+    "auroc": 0.6728499769516713,
+    "brier": 0.22845257403845592,
+    "log_loss": 0.6482968466817913,
+    "away_fav_rate": 0.32270069112174377
   }
 }

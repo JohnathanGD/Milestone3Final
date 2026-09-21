@@ -12,6 +12,7 @@ from pathlib import Path
 
 from nfl_predictor.constants import DEFENSE_PATH, MILESTONE_PDF_PATH, OFFENSE_PATH, OUTPUTS_DIR
 from nfl_predictor.data import data_status
+from nfl_predictor.pick_results import PickHistory, load_pick_history
 from nfl_predictor.team_logos import logo_url, matchup_display_colors
 from nfl_predictor.notebook_results import (
     NotebookResults,
@@ -28,9 +29,24 @@ st.set_page_config(
 
 
 @st.cache_data(show_spinner=False)
-def get_results() -> NotebookResults:
+def get_results(_cache_bust: str = "") -> NotebookResults:
     return load_notebook_results()
 
+
+@st.cache_data(show_spinner=False)
+def get_pick_history(_cache_bust: str = "") -> PickHistory:
+    return load_pick_history()
+
+
+def _predictions_cache_key() -> str:
+    """Bust Streamlit cache when prediction CSVs change."""
+    parts: list[str] = []
+    for path in sorted(OUTPUTS_DIR.glob("predictions_*.csv")):
+        parts.append(f"{path.name}:{path.stat().st_mtime_ns}")
+    params = OUTPUTS_DIR / "form_model_params.json"
+    if params.is_file():
+        parts.append(f"params:{params.stat().st_mtime_ns}")
+    return "|".join(parts)
 
 def _team_win_bar(
     home_prob: float,
@@ -129,50 +145,87 @@ def render_predictions(results: NotebookResults) -> None:
 
     st.subheader(f"Week {week} predictions")
     st.caption(
-        "Home win probability from the baseline + form model "
-        "(prior-season / in-season offense & defense)."
+        "Win probabilities and predicted home spread from the baseline + form model "
+        "(in-season form primary; prior season secondary)."
     )
+    if "predicted_spread" not in preds.columns:
+        st.warning(
+            "This prediction file has no spreads yet. Re-run: "
+            "`python train_model.py --predict-week 2026 2`"
+        )
 
     for _, row in preds.iterrows():
         home = row.get("team_home", "Home")
         away = row.get("team_away", "Away")
         prob = float(row["pred_home_win_prob"])
-        away_prob = 1.0 - prob
+        away_prob = float(row["pred_away_win_prob"]) if "pred_away_win_prob" in row.index and pd.notna(row.get("pred_away_win_prob")) else 1.0 - prob
         winner = row.get("predicted_winner", home if prob >= 0.5 else away)
         conf = float(row.get("confidence", max(prob, away_prob)))
+        spread = row.get("predicted_spread")
+        spread_label = row.get("spread_label")
+        if pd.isna(spread_label) or not spread_label:
+            if pd.notna(spread):
+                from nfl_predictor.form_model import format_home_spread
+
+                spread_label = format_home_spread(float(spread), home, away)
+            else:
+                spread_label = "—"
 
         home_color, away_color = matchup_display_colors(home, away)
         with st.container(border=True):
-            logo_away, text_away, at_col, logo_home, text_home, prob_col = st.columns(
-                [0.5, 1.6, 0.25, 0.5, 1.6, 0.9]
+            logo_away, text_away, at_col, logo_home, text_home, meta_col = st.columns(
+                [0.5, 1.6, 0.25, 0.5, 1.6, 1.1]
             )
             with logo_away:
                 _team_logo_column(away)
             with text_away:
                 st.markdown(
-                    f"<span style='color:{away_color};font-weight:600;'>{away}</span>",
+                    f"<span style='color:{away_color};font-weight:700;font-size:1.05rem;'>{away}</span>",
                     unsafe_allow_html=True,
                 )
-                st.caption(f"{away_prob:.0%} to win")
+                st.markdown(
+                    f"<div style='font-size:1.35rem;font-weight:700;color:{away_color};'>{away_prob:.0%}</div>",
+                    unsafe_allow_html=True,
+                )
             with at_col:
                 st.markdown("**@**")
             with logo_home:
                 _team_logo_column(home)
             with text_home:
                 st.markdown(
-                    f"<span style='color:{home_color};font-weight:600;'>{home}</span>",
+                    f"<span style='color:{home_color};font-weight:700;font-size:1.05rem;'>{home}</span>",
                     unsafe_allow_html=True,
                 )
-                st.caption(f"{prob:.0%} to win")
-            with prob_col:
-                st.markdown(f"### {prob:.0%}")
-                st.caption("P(home win)")
+                st.markdown(
+                    f"<div style='font-size:1.35rem;font-weight:700;color:{home_color};'>{prob:.0%}</div>",
+                    unsafe_allow_html=True,
+                )
+            with meta_col:
+                st.markdown(
+                    f"<div style='font-size:1.15rem;font-weight:800;'>{spread_label}</div>",
+                    unsafe_allow_html=True,
+                )
+                st.caption("Predicted spread")
+                if pd.notna(spread):
+                    st.caption(f"Home line: {float(spread):+.1f}")
+
+            st.markdown(
+                f"<div style='background:#111827;color:#f9fafb;border-radius:8px;"
+                f"padding:0.55rem 0.85rem;margin:0.35rem 0 0.5rem 0;"
+                f"display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;"
+                f"font-weight:700;'>"
+                f"<span>{away}: {away_prob:.0%}</span>"
+                f"<span>Spread: {spread_label}</span>"
+                f"<span>{home}: {prob:.0%}</span>"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
 
             _team_win_bar(
                 prob,
                 home_color,
                 away_color,
-                f"Model pick: {winner} ({conf:.0%} confidence)",
+                f"Pick: {winner} ({conf:.0%})",
             )
 
     st.download_button(
@@ -181,6 +234,115 @@ def render_predictions(results: NotebookResults) -> None:
         file_name="predictions.csv",
         mime="text/csv",
     )
+
+
+def render_pick_results(history: PickHistory) -> None:
+    st.subheader("Weekly pick results")
+    st.caption(
+        "Graded against final scores in the offense game logs. "
+        "Green = correct pick, red = wrong, gray = not played yet."
+    )
+
+    if not history.weeks:
+        st.warning(
+            "No prediction files found under `outputs/predictions_*_wk*.csv`. "
+            "Run `python train_model.py --predict-week YYYY W` first."
+        )
+        return
+
+    # Prefer 2026 form weeks for the default view; still list all files.
+    season_options = sorted({w.season for w in history.weeks}, reverse=True)
+    season = st.selectbox("Season", season_options, index=0)
+    season_weeks = [w for w in history.weeks if w.season == season]
+    if not season_weeks:
+        st.info("No weeks for that season.")
+        return
+
+    graded_season = [w for w in season_weeks if w.n_graded]
+    total_correct = sum(w.n_correct for w in graded_season)
+    total_wrong = sum(w.n_wrong for w in graded_season)
+    total_graded = total_correct + total_wrong
+    total_pending = sum(w.n_pending for w in season_weeks)
+
+    m1, m2, m3, m4 = st.columns(4)
+    if total_graded:
+        m1.metric("Correct", f"{total_correct} ({total_correct / total_graded:.0%})")
+        m2.metric("Wrong", f"{total_wrong} ({total_wrong / total_graded:.0%})")
+        m3.metric("Accuracy", f"{total_correct / total_graded:.1%}")
+    else:
+        m1.metric("Correct", "—")
+        m2.metric("Wrong", "—")
+        m3.metric("Accuracy", "—")
+    m4.metric("Pending games", total_pending)
+
+    week_labels = {
+        f"Week {w.week}"
+        + (
+            f" ({w.n_correct}/{w.n_graded})"
+            if w.n_graded
+            else " (pending)"
+        ): w
+        for w in season_weeks
+    }
+    tabs = st.tabs(list(week_labels.keys()))
+    for tab, week_res in zip(tabs, week_labels.values()):
+        with tab:
+            if week_res.n_graded:
+                st.markdown(
+                    f"**{week_res.n_correct} correct · {week_res.n_wrong} wrong · "
+                    f"{week_res.accuracy:.0%} accuracy**"
+                    + (
+                        f" · {week_res.n_pending} pending"
+                        if week_res.n_pending
+                        else ""
+                    )
+                )
+            else:
+                st.info("No final scores yet for this week — picks are pending.")
+
+            for _, row in week_res.games.iterrows():
+                home = row.get("team_home", "Home")
+                away = row.get("team_away", "Away")
+                pick = row.get("predicted_winner", "—")
+                actual = row.get("actual_winner")
+                prob = row.get("pred_home_win_prob")
+                correct = row.get("correct")
+
+                if pd.isna(correct):
+                    bg, border, status = "#f3f4f6", "#d1d5db", "Pending"
+                elif bool(correct):
+                    bg, border, status = "#dcfce7", "#16a34a", "Correct"
+                else:
+                    bg, border, status = "#fee2e2", "#dc2626", "Wrong"
+
+                score_txt = ""
+                if pd.notna(row.get("score_home")) and pd.notna(row.get("score_away")):
+                    score_txt = (
+                        f"{int(row['score_away'])}–{int(row['score_home'])} final"
+                    )
+
+                prob_txt = f"{float(prob):.0%} home" if pd.notna(prob) else "—"
+                actual_txt = actual if pd.notna(actual) else "—"
+
+                st.markdown(
+                    f"""
+                    <div style="background:{bg};border:1px solid {border};border-radius:10px;
+                                padding:0.85rem 1rem;margin-bottom:0.6rem;">
+                      <div style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                        <div>
+                          <div style="font-weight:700;font-size:1.05rem;">{away} @ {home}</div>
+                          <div style="opacity:0.85;margin-top:0.2rem;">
+                            Pick: <strong>{pick}</strong> · Model: {prob_txt}
+                            {" · " + score_txt if score_txt else ""}
+                          </div>
+                          <div style="opacity:0.85;">Actual winner: <strong>{actual_txt}</strong></div>
+                        </div>
+                        <div style="font-weight:700;color:{border};align-self:center;">{status}</div>
+                      </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
 
 
 def render_metrics(results: NotebookResults) -> None:
@@ -314,9 +476,9 @@ def render_about(results: NotebookResults) -> None:
         Week predictions use a **home baseline** adjusted by offense/defense form
         (prior season for week 1; season-to-date afterward):
 
-        `python train_model.py --predict-week 2026 1`
+        `python train_model.py --predict-week 2026 2`
 
-        That writes `outputs/predictions_2026_wk1.csv`. Optional `--ml` also reports
+        That writes `outputs/predictions_2026_wk2.csv`. Optional `--ml` also reports
         lagged ML holdout metrics. Re-run the notebook afterward if you
         want the Streamlit UI to show notebook stdout metrics as well.
 
@@ -332,18 +494,20 @@ def render_about(results: NotebookResults) -> None:
 
     if st.button("Refresh from notebook", type="primary"):
         get_results.clear()
+        get_pick_history.clear()
         st.rerun()
 
 
 def main() -> None:
-    results = get_results()
+    cache_key = _predictions_cache_key()
+    results = get_results(cache_key)
     status = data_status()
 
     with st.sidebar:
         st.title("NFL Predictor")
         page = st.radio(
             "Navigate",
-            ["Predictions", "Model results", "Report", "About"],
+            ["Predictions", "Results", "Model results", "Report", "About"],
             label_visibility="collapsed",
         )
         st.divider()
@@ -361,6 +525,7 @@ def main() -> None:
 
         if st.button("Refresh from notebook", use_container_width=True):
             get_results.clear()
+            get_pick_history.clear()
             st.rerun()
 
     st.title("NFL Game Outcome Predictor")
@@ -377,13 +542,15 @@ def main() -> None:
         if not results.has_predictions():
             st.error(
                 "No predictions found. Either run all cells in `repro_m2.ipynb` and save "
-                "with outputs, or run: `python train_model.py --predict-week 2026 1`"
+                "with outputs, or run: `python train_model.py --predict-week 2026 2`"
             )
             render_about(results)
             return
         if not results.executed and results.data_source:
             st.info(f"Showing predictions from `{results.data_source}` (notebook not saved with outputs).")
         render_predictions(results)
+    elif page == "Results":
+        render_pick_results(get_pick_history(cache_key))
     elif page == "Model results":
         if not results.has_model_views():
             st.warning(

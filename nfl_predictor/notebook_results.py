@@ -129,15 +129,20 @@ def _read_fwf_table(text: str, header_test) -> pd.DataFrame:
 
 
 def _load_predictions_from_disk() -> tuple[pd.DataFrame, str]:
-    """Fallback: latest outputs/predictions_*.csv from train_model.py."""
-    candidates = sorted(
-        OUTPUTS_DIR.glob("predictions_*.csv"),
-        key=lambda p: p.stat().st_mtime,
-        reverse=True,
-    )
+    """Prefer newest season/week prediction CSV from train_model.py."""
+    import re
+
+    candidates = list(OUTPUTS_DIR.glob("predictions_*_wk*.csv"))
     if not candidates:
         return pd.DataFrame(), ""
-    path = candidates[0]
+
+    def sort_key(path):
+        m = re.search(r"predictions_(\d{4})_wk(\d+)\.csv$", path.name)
+        if m:
+            return (int(m.group(1)), int(m.group(2)), path.stat().st_mtime)
+        return (0, 0, path.stat().st_mtime)
+
+    path = sorted(candidates, key=sort_key, reverse=True)[0]
     df = pd.read_csv(path)
     if "pred_home_win_prob" in df.columns:
         df["pred_home_win_prob"] = pd.to_numeric(df["pred_home_win_prob"], errors="coerce")

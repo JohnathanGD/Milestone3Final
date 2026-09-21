@@ -49,7 +49,10 @@ STRENGTH_COMPONENTS = [
     ("turnovers_forced", 1.0),
 ]
 
-EARLY_BLEND_CAP = 3  # blend prior season when 0 < n < this
+EARLY_BLEND_CAP = 5  # reach full in-season weight by this many games
+# After n in-season games: w = n/(n+PRIOR_STRENGTH).
+# n=1 → 50% current / 50% prior; n=2 → ~67%; n=3 → 75%.
+PRIOR_STRENGTH = 1.0
 
 
 @dataclass
@@ -57,6 +60,9 @@ class FormParams:
     p0: float = 0.56
     beta: float = 1.0
     offense_weight: float = 0.5
+    # Expected home margin ≈ spread_intercept + spread_scale * edge
+    spread_intercept: float = 2.5
+    spread_scale: float = 4.0
     feature_means: dict[str, float] | None = None
     feature_stds: dict[str, float] | None = None
     train_metrics: dict[str, float] | None = None
@@ -74,7 +80,8 @@ class FormParams:
         if not path.is_file():
             return cls()
         data = json.loads(path.read_text(encoding="utf-8"))
-        return cls(**data)
+        known = {f.name for f in cls.__dataclass_fields__.values()}  # type: ignore[attr-defined]
+        return cls(**{k: v for k, v in data.items() if k in known})
 
 
 def _logit(p: float | np.ndarray) -> np.ndarray:
@@ -138,8 +145,11 @@ def _blended_team_means(
     teams: list[str],
 ) -> pd.DataFrame:
     """
-    Within-season means before `before_week`, with previous-season fill.
-    When 0 < n < EARLY_BLEND_CAP, blend: w*in_season + (1-w)*prev_season, w=n/(n+3).
+    Within-season means before `before_week`, blended with previous-season fill.
+
+    Current-season games are weighted with prior-season fill:
+      w_in = n / (n + PRIOR_STRENGTH)   # n=1 → 50%, n=2 → ~67%, ...
+    Week 1 (n=0) stays 100% prior season.
     """
     value_cols = [c for c in value_cols if c in long_df.columns]
     within = _as_of_team_means(
@@ -161,7 +171,7 @@ def _blended_team_means(
         elif n >= EARLY_BLEND_CAP:
             w = 1.0
         else:
-            w = n / (n + EARLY_BLEND_CAP)
+            w = n / (n + PRIOR_STRENGTH)
 
         row: dict = {team_col: team}
         for c in value_cols:
@@ -299,6 +309,26 @@ def edge_to_home_prob(edge: np.ndarray | float, params: FormParams) -> np.ndarra
     return np.clip(_sigmoid(logit), 0.05, 0.95)
 
 
+def edge_to_margin(edge: np.ndarray | float, params: FormParams) -> np.ndarray:
+    """Expected home − away point margin from form edge."""
+    return params.spread_intercept + params.spread_scale * np.asarray(edge, dtype=float)
+
+
+def margin_to_home_spread(margin: np.ndarray | float) -> np.ndarray:
+    """Home betting line (negative = home favored), rounded to half-points."""
+    spread = -np.asarray(margin, dtype=float)
+    return np.round(spread * 2) / 2
+
+
+def format_home_spread(spread: float, home: str, away: str) -> str:
+    """Human label like 'Buffalo Bills -3.5' or 'Detroit Lions +3.5'."""
+    if abs(spread) < 0.25:
+        return "PICK"
+    if spread < 0:
+        return f"{home} {spread:.1f}"
+    return f"{away} {-spread:.1f}"
+
+
 def predict_week_form(
     off: pd.DataFrame,
     defense: pd.DataFrame,
@@ -344,6 +374,13 @@ def predict_week_form(
     out["away_strength"] = out["away_strength"].fillna(0.0)
     out["edge"] = out["home_strength"] - out["away_strength"]
     out["pred_home_win_prob"] = edge_to_home_prob(out["edge"].to_numpy(), params)
+    out["pred_away_win_prob"] = 1.0 - out["pred_home_win_prob"]
+    out["pred_margin"] = edge_to_margin(out["edge"].to_numpy(), params)
+    out["predicted_spread"] = margin_to_home_spread(out["pred_margin"].to_numpy())
+    out["spread_label"] = [
+        format_home_spread(float(s), h, a)
+        for s, h, a in zip(out["predicted_spread"], out["team_home"], out["team_away"])
+    ]
     out["predicted_winner"] = np.where(
         out["pred_home_win_prob"] >= 0.5, out["team_home"], out["team_away"]
     )
@@ -413,6 +450,7 @@ def build_historical_edges(
                     "away_strength": aws,
                     "edge": hs - aws,
                     "result": int(g["result"]),
+                    "margin": float(g["score_home"] - g["score_away"]),
                 }
             )
     return pd.DataFrame(rows)
@@ -470,18 +508,37 @@ def fit_form_model(
     best_beta = 1.0
     best_loss = float("inf")
     for beta in np.linspace(0.1, 3.0, 30):
-        trial = FormParams(p0=p0, beta=float(beta), offense_weight=offense_weight,
-                           feature_means=means, feature_stds=stds)
+        trial = FormParams(
+            p0=p0,
+            beta=float(beta),
+            offense_weight=offense_weight,
+            feature_means=means,
+            feature_stds=stds,
+        )
         probs = edge_to_home_prob(train["edge"].to_numpy(), trial)
         loss = log_loss(train["result"], np.clip(probs, 1e-6, 1 - 1e-6))
         if loss < best_loss:
             best_loss = loss
             best_beta = float(beta)
 
+    # Fit expected home margin from form edge (for predicted spreads).
+    spread_intercept, spread_scale = 2.5, 4.0
+    if "margin" in train.columns and len(train) >= 10:
+        edge = train["edge"].to_numpy(dtype=float)
+        margin = train["margin"].to_numpy(dtype=float)
+        mask = np.isfinite(edge) & np.isfinite(margin)
+        if mask.sum() >= 10:
+            x = np.column_stack([np.ones(mask.sum()), edge[mask]])
+            coef, _, _, _ = np.linalg.lstsq(x, margin[mask], rcond=None)
+            spread_intercept = float(coef[0])
+            spread_scale = float(coef[1])
+
     params = FormParams(
         p0=p0,
         beta=best_beta,
         offense_weight=offense_weight,
+        spread_intercept=spread_intercept,
+        spread_scale=spread_scale,
         feature_means=means,
         feature_stds=stds,
     )
